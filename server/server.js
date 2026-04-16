@@ -3,8 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { createClient } from '@supabase/supabase-js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Look for .env.local in the root directory
+dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
