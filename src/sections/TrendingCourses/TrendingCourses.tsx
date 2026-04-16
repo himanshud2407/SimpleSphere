@@ -12,7 +12,7 @@ export default function TrendingCourses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/courses');
+        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/courses`);
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setCourses(data.slice(0, 4)); // Show top 4 trending
