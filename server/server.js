@@ -86,26 +86,14 @@ app.delete('/api/courses/:id', authenticateToken, async (req, res) => {
   res.json({ success: true });
 });
 
-// ------------- CONTACT FORM API (Google Sheets & Supabase) -------------
+// ------------- CONTACT FORM API (Supabase) -------------
 app.post('/api/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
   
   // 1. Save to Supabase
   const { error } = await supabase.from('leads').insert([{ name, email, subject, message }]);
   
-  // 2. Forward to Google Sheets if URL is configured
-  const GOOGLE_SHEET_URL = process.env.GOOGLE_SHEET_URL;
-  if (GOOGLE_SHEET_URL) {
-    try {
-      await fetch(GOOGLE_SHEET_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message, date: new Date().toLocaleString() })
-      });
-    } catch (err) {
-      console.error('Google Sheets Error:', err.message);
-    }
-  }
+
 
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true, message: 'Message sent successfully!' });

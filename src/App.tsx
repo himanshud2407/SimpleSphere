@@ -4,6 +4,7 @@ import Footer from '@/sections/Footer/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import { motion, AnimatePresence } from 'motion/react';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import { NotFoundPage } from "@/components/ui/404-page-not-found";
 
 // Pages
 import Home from '@/pages/Home';
@@ -50,6 +51,7 @@ function AnimatedRoutes() {
               </ProtectedRoute>
             } 
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

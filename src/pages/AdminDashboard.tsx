@@ -111,7 +111,7 @@ export default function AdminDashboard() {
               onClick={() => setActiveTab('leads')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'leads' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
             >
-              <Users className="w-5 h-5" /> Leads (Sheets)
+              <Users className="w-5 h-5" /> Leads
             </button>
           </li>
           <li>
@@ -227,9 +227,6 @@ export default function AdminDashboard() {
           <div>
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-3xl font-bold text-gray-900">Contact Form Leads</h1>
-              <a href="https://docs.google.com/spreadsheets" target="_blank" rel="noreferrer" className="text-blue-700 font-medium hover:underline">
-                Open in Google Sheets ↗
-              </a>
             </div>
             
             <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">

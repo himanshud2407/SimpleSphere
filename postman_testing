@@ -1,0 +1,89 @@
+# Testing SimpleSphere APIs with Postman
+
+Your backend server is currently running on `http://localhost:5000`. You can use Postman to test the endpoints for authentication, courses, and leads.
+
+## 1. Authentication (Login)
+To access protected routes (like adding courses or viewing leads), you first need to get a JWT token.
+
+*   **Method:** `POST`
+*   **URL:** `http://localhost:5000/api/login`
+*   **Body:** Select `raw` and `JSON`.
+```json
+{
+  "email": "admin@simplesphere.in",
+  "password": "admin123"
+}
+```
+*   **Response:** You will receive a `token`. Copy this token for the next steps.
+
+---
+
+## 2. Testing Protected Routes (Authorization)
+For any request that requires authentication (like `POST /api/courses`), you must include the token in the headers.
+
+1.  Go to the **Auth** tab in Postman.
+2.  Select **Type:** `Bearer Token`.
+3.  Paste the **Token** you received from the login response.
+
+---
+
+## 3. Course Management
+
+### Get All Courses
+*   **Method:** `GET`
+*   **URL:** `http://localhost:5000/api/courses`
+*   **Auth:** No token required.
+
+### Add a New Course
+*   **Method:** `POST`
+*   **URL:** `http://localhost:5000/api/courses`
+*   **Auth:** `Bearer Token` required.
+*   **Body:** `JSON`
+```json
+{
+  "title": "Mastering React 19",
+  "img": "https://images.unsplash.com/photo-1633356122544-f134324a6cee",
+  "inst": "John Doe",
+  "rating": 4.8,
+  "reviews": 120,
+  "price": 49.99,
+  "category": "Development",
+  "level": "Intermediate"
+}
+```
+
+---
+
+## 4. Leads (Contact Form)
+
+### Submit Contact Form
+*   **Method:** `POST`
+*   **URL:** `http://localhost:5000/api/contact`
+*   **Body:** `JSON`
+```json
+{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "subject": "Inquiry about Courses",
+  "message": "I would like to know more about the Next.js bundle."
+}
+```
+
+### View All Leads
+*   **Method:** `GET`
+*   **URL:** `http://localhost:5000/api/leads`
+*   **Auth:** `Bearer Token` required.
+
+---
+
+## Quick Reference Table
+
+| Feature | Method | Endpoint | Auth Required |
+| :--- | :--- | :--- | :--- |
+| Login | `POST` | `/api/login` | No |
+| List Courses | `GET` | `/api/courses` | No |
+| Add Course | `POST` | `/api/courses` | **Yes** |
+| Update Course | `PUT` | `/api/courses/:id` | **Yes** |
+| Delete Course | `DELETE` | `/api/courses/:id` | **Yes** |
+| Submit Contact | `POST` | `/api/contact` | No |
+| View Leads | `GET` | `/api/leads` | **Yes** |
