@@ -66,10 +66,10 @@ export default function Hero() {
             
             {/* Subtitle */}
             <p className="hidden md:block text-xl text-slate-600 max-w-2xl font-medium leading-relaxed mb-10">
-              Accelerate your career with industry-recognized certifications. Master in-demand skills and secure your dream internship today.
+              Master GenAI, Cybersecurity & Web3 with an Efficient Learning System.
             </p>
             <p className="md:hidden text-[15px] text-slate-500 font-medium leading-relaxed mb-5">
-              Boost your career with certified courses & land your dream role.
+              Master GenAI, Cybersecurity & Web3 with an Efficient Learning System.
             </p>
 
             {/* Trust Badge - Mobile Only */}

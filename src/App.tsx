@@ -15,6 +15,9 @@ import FindCenterPage from '@/pages/FindCenterPage';
 import AdminDashboard from '@/pages/AdminDashboard';
 import LoginPage from '@/pages/LoginPage';
 import BlogPostDetail from '@/pages/BlogPostDetail';
+import BecomeInstructor from '@/pages/BecomeInstructor';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsAndConditions from '@/pages/TermsAndConditions';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -41,7 +44,10 @@ function AnimatedRoutes() {
           <Route path="/blog/:slug" element={<BlogPostDetail />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/courses" element={<AllCoursesPage />} />
-          <Route path="/find-center" element={<FindCenterPage />} />
+          <Route path="/Our-center" element={<FindCenterPage />} />
+          <Route path="/become-instructor" element={<BecomeInstructor />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 
             path="/admin" 

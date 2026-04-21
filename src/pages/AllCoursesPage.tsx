@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { SEO } from '@/components/SEO';
 
 export default function AllCoursesPage() {
   const [showFilters, setShowFilters] = useState(false);
@@ -130,6 +131,11 @@ export default function AllCoursesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-white min-h-screen">
+      <SEO 
+        title="All Courses" 
+        description="Explore our wide range of professional courses in GenAI, Software Engineering, Data Science, and more. Upskill with industry-leading content at SimpleSphere."
+        keywords="online courses, learning, professional development, GenAI courses, coding bootcamp, simplesphere"
+      />
       <div className="flex flex-col lg:flex-row gap-8">
         
         {/* Mobile Filter Toggle */}
@@ -210,9 +216,15 @@ export default function AllCoursesPage() {
                     </p>
                     <div className="mt-auto flex items-center justify-between">
                       <span className="font-bold text-lg text-gray-900">{course.price}</span>
-                      <Link to="/contact">
-                        <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
-                      </Link>
+                      {course.enrollmentUrl ? (
+                        <a href={course.enrollmentUrl} target="_blank" rel="noopener noreferrer">
+                          <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
+                        </a>
+                      ) : (
+                        <Link to="/contact">
+                          <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

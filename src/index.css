@@ -1,9 +1,13 @@
 /* Cache buster: 1 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-headline: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Inter", sans-serif;
   
   --color-background: white;
   --color-foreground: #0f172a;
@@ -25,6 +29,26 @@
   --color-card: white;
   --color-card-foreground: #0f172a;
 
+  --color-surface-tint: #0053db;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-highest: #d3e4fe;
+  --color-surface-bright: #f8f9ff;
+  --color-surface: #f8f9ff;
+  --color-on-surface: #0b1c30;
+  --color-on-surface-variant: #434655;
+  --color-primary-stitch: #004ac6;
+  --color-primary-fixed-dim: #b4c5ff;
+  --color-primary-container: #2563eb;
+  --color-on-primary-container: #eeefff;
+  --color-on-secondary-container: #57657a;
+  --color-outline-variant: #c3c6d7;
+  --color-outline: #737686;
+  --color-inverse-surface: #213145;
+  --color-inverse-on-surface: #eaf1ff;
+
   --radius-lg: 0.5rem;
   --radius-md: calc(0.5rem - 2px);
   --radius-sm: calc(0.5rem - 4px);
@@ -43,5 +67,11 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+  .signature-gradient {
+    background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+  }
+  .editorial-shadow {
+    box-shadow: 0px 20px 40px rgba(11, 28, 48, 0.06);
   }
 }

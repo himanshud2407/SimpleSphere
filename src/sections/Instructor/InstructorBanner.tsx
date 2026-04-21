@@ -22,7 +22,7 @@ export default function InstructorBanner() {
               Join thousands of learners who've already taken their career to the next level with expert-led courses.
             </p>
             <button 
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/become-instructor')}
               className="px-8 py-4 bg-[#E0E7FF] text-gray-800 font-bold rounded-xl hover:bg-white transition-all shadow-md"
             >
               Get Started Now
@@ -51,7 +51,7 @@ export default function InstructorBanner() {
               Join our teaching community and reach thousands of students around the world with your expertise.
             </p>
             <button 
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/become-instructor')}
               className="px-8 py-4 bg-[#E0E7FF] text-gray-800 font-bold rounded-xl hover:bg-white transition-all shadow-md mt-auto"
             >
               Drop Information

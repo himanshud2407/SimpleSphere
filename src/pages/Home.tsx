@@ -12,10 +12,16 @@ import Testimonials from '@/sections/Testimonials/Testimonials';
 import FAQ from '@/sections/FAQ/FAQ';
 import Blog from '@/sections/Blog/Blog';
 import TrendingCourses from '@/sections/TrendingCourses/TrendingCourses';
+import { SEO } from '@/components/SEO';
 
 export default function Home() {
   return (
     <>
+      <SEO 
+        title="Home" 
+        description="SimpleSphere - The ultimate platform for professional growth. Learn from industry experts, master high-demand skills in AI, Software, and Data Science, and accelerate your career."
+        keywords="online learning, career growth, tech education, AI training, software development bootcamp, simplesphere"
+      />
       <Hero />
       {/*    */}
       <div className="hidden md:block">

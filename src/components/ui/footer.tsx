@@ -7,14 +7,15 @@ import {
     Send,
     Feather,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const links = [
-    { title: 'Home', href: '#' },
-    { title: 'All Courses', href: '#' },
-    { title: 'Blogs', href: '#' },
-    { title: 'Contact Us', href: '#' },
-    { title: 'About Us', href: '#' },
-];
+  { title: "Home", href: "/" },
+  { title: "All Courses", href: "/courses" },
+  { title: "Blogs", href: "/blog" },
+  { title: "Contact Us", href: "/contact" },
+  { title: "Our Center", href: "/Our-center" },
+  { title: "Become Instructor", href: "/become-instructor" },];
 
 const socialLinks = [
     { icon: Share2, label: 'Share', href: '#' },
@@ -123,11 +124,10 @@ export default function FooterSection() {
                     className="text-slate-400 block text-center text-sm font-light tracking-wide"
                 >
                     <div className="flex flex-col items-center gap-4">
-                        <span>© {new Date().getFullYear()} SimpleSphere, Inc. All rights reserved.</span>
+                        <span>© {new Date().getFullYear()} Simplesphere, All rights reserved.</span>
                         <div className="flex gap-6 text-xs uppercase tracking-widest font-semibold">
-                            <a href="#" className="hover:text-blue-600 transition-colors">Privacy</a>
-                            <a href="#" className="hover:text-blue-600 transition-colors">Terms</a>
-                            <a href="#" className="hover:text-blue-600 transition-colors">Cookies</a>
+                            <Link to="/privacy-policy" className="hover:text-blue-600 transition-colors">Privacy</Link>
+                            <Link to="/terms-and-conditions" className="hover:text-blue-600 transition-colors">Terms</Link>
                         </div>
                     </div>
                 </motion.div>

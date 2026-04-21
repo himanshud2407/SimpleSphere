@@ -128,7 +128,15 @@ export default function TrendingCourses() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2 truncate">{course.title}</h3>
                 <p className="text-sm text-gray-500 mb-6 line-clamp-2">{course.description || 'Improve your skills with this course.'}</p>
                 <div className="flex items-center justify-between mt-auto">
-                  <ButtonWithIconDemo text="Enroll Now" />
+                  {course.enrollmentUrl ? (
+                    <a href={course.enrollmentUrl} target="_blank" rel="noopener noreferrer">
+                      <ButtonWithIconDemo text="Enroll Now" />
+                    </a>
+                  ) : (
+                    <Link to="/contact">
+                      <ButtonWithIconDemo text="Enroll Now" />
+                    </Link>
+                  )}
                 </div>
               </div>
             </motion.div>

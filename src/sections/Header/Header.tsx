@@ -15,8 +15,9 @@ export default function Header() {
     { label: 'Home', href: '/' },
     { label: 'All Courses', href: '/courses' },
     { label: 'Blogs', href: '/blog' },
-    { label: 'Find Center', href: '/find-center' },
+    { label: 'Our Center', href: '/Our-center' },
     { label: 'Contact Us', href: '/contact' },
+    { label: 'Become an Instructor', href: '/become-instructor' },
   ];
 
   React.useEffect(() => {
@@ -39,7 +40,7 @@ export default function Header() {
         className={cn(
           "mx-auto transition-all duration-300 ease-in-out px-4 sm:px-6 lg:px-8",
           scrolled && !open
-            ? "max-w-6xl"
+            ? "max-w-7xl"
             : "max-w-screen-2xl"
         )}
       >
@@ -67,7 +68,7 @@ export default function Header() {
                   key={link.label}
                   to={link.href}
                   className={cn(
-                    "relative px-4 py-2 text-sm md:text-base font-semibold transition-all duration-300 rounded-lg group",
+                    "relative px-4 py-2 text-sm md:text-base font-semibold transition-all duration-300 rounded-lg group whitespace-nowrap",
                     isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
                   )}
                 >
@@ -217,9 +218,15 @@ export default function Header() {
                     <a href="https://dashboard.simplesphere.in" target="_blank" rel="noopener noreferrer">LMS Dashboard</a>
                   </Button>
                 </div>
-                <div className="flex flex-col items-center gap-2 pt-4">
-                  <p className="text-slate-400 text-sm font-semibold tracking-wide">© 2026 SIMPLESPHERE TECHNOLOGIES</p>
-                  <div className="w-12 h-1 bg-blue-100 rounded-full" />
+                <div className="flex flex-col items-center gap-4 pt-4">
+                  <div className="flex justify-center gap-6 text-sm font-semibold text-slate-500">
+                    <Link to="/privacy-policy" onClick={() => setOpen(false)} className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
+                    <Link to="/terms-and-conditions" onClick={() => setOpen(false)} className="hover:text-blue-600 transition-colors">Terms & Conditions</Link>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-slate-400 text-sm font-semibold tracking-wide">© 2026 SIMPLESPHERE TECHNOLOGIES</p>
+                    <div className="w-12 h-1 bg-blue-100 rounded-full" />
+                  </div>
                 </div>
               </motion.div>
             </div>

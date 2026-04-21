@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut } from 'lucide-react';
+import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -8,12 +8,13 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('courses');
   const [courses, setCourses] = useState([]);
   const [leads, setLeads] = useState([]);
+  const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Form State
   const [showCourseForm, setShowCourseForm] = useState(false);
   const [courseFormData, setCourseFormData] = useState({
-    title: '', img: '', inst: '', price: '', category: '', level: '', id: null
+    title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null
   });
 
   const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchCourses();
     fetchLeads();
+    fetchInstructors();
   }, []);
 
   const getHeaders = () => ({
@@ -48,6 +50,16 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchInstructors = async () => {
+    try {
+      const res = await fetch(`${API_URL}/instructors`, { headers: getHeaders() });
+      const data = await res.json();
+      if (Array.isArray(data)) setInstructors(data);
+    } catch (err) {
+      console.error('Error fetching instructors:', err);
+    }
+  };
+
   const handleSaveCourse = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -63,7 +75,7 @@ export default function AdminDashboard() {
       
       if (res.ok) {
         setShowCourseForm(false);
-        setCourseFormData({ title: '', img: '', inst: '', price: '', category: '', level: '', id: null });
+        setCourseFormData({ title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null });
         fetchCourses();
       }
     } catch (err) {
@@ -116,6 +128,14 @@ export default function AdminDashboard() {
           </li>
           <li>
             <button 
+              onClick={() => setActiveTab('instructors')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'instructors' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              <GraduationCap className="w-5 h-5" /> Instructors
+            </button>
+          </li>
+          <li>
+            <button 
               onClick={() => setActiveTab('settings')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'settings' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
             >
@@ -142,7 +162,7 @@ export default function AdminDashboard() {
           <div>
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-3xl font-bold text-gray-900">Manage Courses</h1>
-              <Button onClick={() => { setShowCourseForm(true); setCourseFormData({ title: '', img: '', inst: '', price: '', category: '', level: '', id: null }); }} className="bg-blue-700 hover:bg-blue-800 flex items-center gap-2">
+              <Button onClick={() => { setShowCourseForm(true); setCourseFormData({ title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null }); }} className="bg-blue-700 hover:bg-blue-800 flex items-center gap-2">
                 <Plus className="w-4 h-4" /> Add Course
               </Button>
             </div>
@@ -155,6 +175,7 @@ export default function AdminDashboard() {
                   <input placeholder="Image URL" className="border p-3 rounded-lg" value={courseFormData.img} onChange={e => setCourseFormData({...courseFormData, img: e.target.value})} />
                   <input required placeholder="Instructor" className="border p-3 rounded-lg" value={courseFormData.inst} onChange={e => setCourseFormData({...courseFormData, inst: e.target.value})} />
                   <input required placeholder="Price" className="border p-3 rounded-lg" value={courseFormData.price} onChange={e => setCourseFormData({...courseFormData, price: e.target.value})} />
+                  <input placeholder="Enrollment URL (e.g. Google Form/Payment Link)" className="border p-3 rounded-lg md:col-span-2" value={courseFormData.enrollmentUrl || ''} onChange={e => setCourseFormData({...courseFormData, enrollmentUrl: e.target.value})} />
                   <input required placeholder="Category" className="hidden" value={courseFormData.category} />
                   <select 
                     required 
@@ -250,6 +271,44 @@ export default function AdminDashboard() {
                       <td className="p-4">{lead.subject}</td>
                       <td className="p-4 max-w-xs truncate">{lead.message}</td>
                       <td className="p-4">{new Date(lead.created_at).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* INSTRUCTORS TAB */}
+        {activeTab === 'instructors' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold text-gray-900">Instructor Applications</h1>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 border-b">
+                    <th className="p-4 font-semibold text-gray-600">Name</th>
+                    <th className="p-4 font-semibold text-gray-600">Email</th>
+                    <th className="p-4 font-semibold text-gray-600">Expertise</th>
+                    <th className="p-4 font-semibold text-gray-600">Date Applied</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {instructors.length === 0 ? (
+                    <tr><td colSpan={4} className="p-4 text-center text-gray-500">No applications found yet.</td></tr>
+                  ) : instructors.map((inst: any) => (
+                    <tr key={inst.id} className="border-b hover:bg-gray-50">
+                      <td className="p-4">{inst.fullName}</td>
+                      <td className="p-4">{inst.email}</td>
+                      <td className="p-4">
+                        <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
+                          {inst.expertise}
+                        </span>
+                      </td>
+                      <td className="p-4">{inst.created_at ? new Date(inst.created_at).toLocaleDateString() : 'N/A'}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { sanityClient, urlFor } from '@/lib/sanity';
 import { getBlogsQuery } from '@/lib/sanityQueries';
+import { SEO } from '@/components/SEO';
 
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -43,6 +44,11 @@ export default function BlogPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <SEO 
+        title="Blog" 
+        description="Stay updated with the latest trends in technology, AI, and professional development. Read our insights and guides at the SimpleSphere blog."
+        keywords="tech blog, AI insights, learning resources, professional development tips, simplesphere"
+      />
       {/* Featured Post */}
       {featuredPost && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
