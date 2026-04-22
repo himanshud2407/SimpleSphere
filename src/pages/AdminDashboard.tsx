@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut, GraduationCap } from 'lucide-react';
+import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut, GraduationCap, CheckCircle, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -14,7 +14,7 @@ export default function AdminDashboard() {
   // Form State
   const [showCourseForm, setShowCourseForm] = useState(false);
   const [courseFormData, setCourseFormData] = useState({
-    title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null
+    title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null as string | null
   });
 
   const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
@@ -30,11 +30,25 @@ export default function AdminDashboard() {
     'Authorization': `Bearer ${token}`
   });
 
+  const handleResponse = async (res: Response) => {
+    if (res.status === 401 || res.status === 403) {
+      logout();
+      return null;
+    }
+    const contentType = res.headers.get("content-type");
+    if (!res.ok || !contentType || !contentType.includes("application/json")) {
+      const text = await res.text();
+      console.error(`API Error (${res.status}):`, text.substring(0, 100));
+      return null;
+    }
+    return res.json();
+  };
+
   const fetchCourses = async () => {
     try {
       const res = await fetch(`${API_URL}/courses`, { headers: getHeaders() });
-      const data = await res.json();
-      if (Array.isArray(data)) setCourses(data);
+      const data = await handleResponse(res);
+      if (data && Array.isArray(data)) setCourses(data);
     } catch (err) {
       console.error('Error fetching courses:', err);
     }
@@ -43,8 +57,8 @@ export default function AdminDashboard() {
   const fetchLeads = async () => {
     try {
       const res = await fetch(`${API_URL}/leads`, { headers: getHeaders() });
-      const data = await res.json();
-      if (Array.isArray(data)) setLeads(data);
+      const data = await handleResponse(res);
+      if (data && Array.isArray(data)) setLeads(data);
     } catch (err) {
       console.error('Error fetching leads:', err);
     }
@@ -52,9 +66,10 @@ export default function AdminDashboard() {
 
   const fetchInstructors = async () => {
     try {
+      console.log(`Fetching instructors from: ${API_URL}/instructors`);
       const res = await fetch(`${API_URL}/instructors`, { headers: getHeaders() });
-      const data = await res.json();
-      if (Array.isArray(data)) setInstructors(data);
+      const data = await handleResponse(res);
+      if (data && Array.isArray(data)) setInstructors(data);
     } catch (err) {
       console.error('Error fetching instructors:', err);
     }
@@ -84,6 +99,54 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
+  const handleDeleteLead = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this lead?')) return;
+    try {
+      await fetch(`${API_URL}/leads/${id}`, { method: 'DELETE', headers: getHeaders() });
+      fetchLeads();
+    } catch (err) {
+      console.error('Error deleting lead:', err);
+    }
+  };
+
+  const handleMarkLeadDone = async (id: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'done' ? 'pending' : 'done';
+      await fetch(`${API_URL}/leads/${id}`, { 
+        method: 'PATCH', 
+        headers: getHeaders(),
+        body: JSON.stringify({ status: newStatus })
+      });
+      fetchLeads();
+    } catch (err) {
+      console.error('Error updating lead status:', err);
+    }
+  };
+
+  const handleDeleteInstructor = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this application?')) return;
+    try {
+      await fetch(`${API_URL}/instructors/${id}`, { method: 'DELETE', headers: getHeaders() });
+      fetchInstructors();
+    } catch (err) {
+      console.error('Error deleting instructor:', err);
+    }
+  };
+
+  const handleMarkInstructorDone = async (id: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'done' ? 'pending' : 'done';
+      await fetch(`${API_URL}/instructors/${id}`, { 
+        method: 'PATCH', 
+        headers: getHeaders(),
+        body: JSON.stringify({ status: newStatus })
+      });
+      fetchInstructors();
+    } catch (err) {
+      console.error('Error updating instructor status:', err);
+    }
+  };
+
   const handleDeleteCourse = async (id: string) => {
     if (!confirm('Are you sure you want to delete this course?')) return;
     try {
@@ -98,7 +161,16 @@ export default function AdminDashboard() {
   };
 
   const handleEditCourse = (course: any) => {
-    setCourseFormData(course);
+    setCourseFormData({
+      title: course.title || '',
+      img: course.img || '',
+      inst: course.inst || '',
+      price: course.price || '',
+      category: course.category || '',
+      level: course.level || '',
+      enrollmentUrl: course.enrollmentUrl || course.enrollmenturl || '',
+      id: course.id
+    });
     setShowCourseForm(true);
   };
 
@@ -175,8 +247,7 @@ export default function AdminDashboard() {
                   <input placeholder="Image URL" className="border p-3 rounded-lg" value={courseFormData.img} onChange={e => setCourseFormData({...courseFormData, img: e.target.value})} />
                   <input required placeholder="Instructor" className="border p-3 rounded-lg" value={courseFormData.inst} onChange={e => setCourseFormData({...courseFormData, inst: e.target.value})} />
                   <input required placeholder="Price" className="border p-3 rounded-lg" value={courseFormData.price} onChange={e => setCourseFormData({...courseFormData, price: e.target.value})} />
-                  <input placeholder="Enrollment URL (e.g. Google Form/Payment Link)" className="border p-3 rounded-lg md:col-span-2" value={courseFormData.enrollmentUrl || ''} onChange={e => setCourseFormData({...courseFormData, enrollmentUrl: e.target.value})} />
-                  <input required placeholder="Category" className="hidden" value={courseFormData.category} />
+                  <input placeholder="Enrollment URL (e.g. Google Form/Payment Link)" className="border p-3 rounded-lg md:col-span-2" value={courseFormData.enrollmentUrl} onChange={e => setCourseFormData({...courseFormData, enrollmentUrl: e.target.value})} />
                   <select 
                     required 
                     className="border p-3 rounded-lg bg-white" 
@@ -259,18 +330,31 @@ export default function AdminDashboard() {
                     <th className="p-4 font-semibold text-gray-600">Subject</th>
                     <th className="p-4 font-semibold text-gray-600">Message</th>
                     <th className="p-4 font-semibold text-gray-600">Date</th>
+                    <th className="p-4 font-semibold text-gray-600">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {leads.length === 0 ? (
                     <tr><td colSpan={5} className="p-4 text-center text-gray-500">No leads found yet.</td></tr>
                   ) : leads.map((lead: any) => (
-                    <tr key={lead.id} className="border-b hover:bg-gray-50">
+                    <tr key={lead.id} className={`border-b hover:bg-gray-50 ${lead.status === 'done' ? 'opacity-50' : ''}`}>
                       <td className="p-4">{lead.name}</td>
                       <td className="p-4">{lead.email}</td>
                       <td className="p-4">{lead.subject}</td>
                       <td className="p-4 max-w-xs truncate">{lead.message}</td>
                       <td className="p-4">{new Date(lead.created_at).toLocaleDateString()}</td>
+                      <td className="p-4 flex gap-2">
+                        <button 
+                          onClick={() => handleMarkLeadDone(lead.id, lead.status)} 
+                          className={`${lead.status === 'done' ? 'text-green-600' : 'text-gray-400'} hover:text-green-700`}
+                          title={lead.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
+                        >
+                          <CheckCircle className="w-5 h-5"/>
+                        </button>
+                        <button onClick={() => handleDeleteLead(lead.id)} className="text-red-500 hover:text-red-700" title="Delete Lead">
+                          <Trash2 className="w-5 h-5"/>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -294,14 +378,15 @@ export default function AdminDashboard() {
                     <th className="p-4 font-semibold text-gray-600">Email</th>
                     <th className="p-4 font-semibold text-gray-600">Expertise</th>
                     <th className="p-4 font-semibold text-gray-600">Date Applied</th>
+                    <th className="p-4 font-semibold text-gray-600">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {instructors.length === 0 ? (
                     <tr><td colSpan={4} className="p-4 text-center text-gray-500">No applications found yet.</td></tr>
                   ) : instructors.map((inst: any) => (
-                    <tr key={inst.id} className="border-b hover:bg-gray-50">
-                      <td className="p-4">{inst.fullName}</td>
+                    <tr key={inst.id} className={`border-b hover:bg-gray-50 ${inst.status === 'done' ? 'opacity-50' : ''}`}>
+                      <td className="p-4">{inst.fullname || inst.fullName}</td>
                       <td className="p-4">{inst.email}</td>
                       <td className="p-4">
                         <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
@@ -309,6 +394,18 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="p-4">{inst.created_at ? new Date(inst.created_at).toLocaleDateString() : 'N/A'}</td>
+                      <td className="p-4 flex gap-2">
+                        <button 
+                          onClick={() => handleMarkInstructorDone(inst.id, inst.status)} 
+                          className={`${inst.status === 'done' ? 'text-green-600' : 'text-gray-400'} hover:text-green-700`}
+                          title={inst.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
+                        >
+                          <CheckCircle className="w-5 h-5"/>
+                        </button>
+                        <button onClick={() => handleDeleteInstructor(inst.id)} className="text-red-500 hover:text-red-700" title="Delete Application">
+                          <Trash2 className="w-5 h-5"/>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

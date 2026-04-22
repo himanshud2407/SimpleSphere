@@ -76,7 +76,7 @@ async function seed() {
   const { error: deleteError } = await supabase
     .from('courses')
     .delete()
-    .neq('id', 0); // Delete all
+    .neq('id', '00000000-0000-0000-0000-000000000000'); // Valid UUID string to match all
     
   if (deleteError) {
     console.error("Error clearing courses:", deleteError);

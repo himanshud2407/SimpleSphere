@@ -217,7 +217,11 @@ export default function AllCoursesPage() {
                     <div className="mt-auto flex items-center justify-between">
                       <span className="font-bold text-lg text-gray-900">{course.price}</span>
                       {course.enrollmentUrl ? (
-                        <a href={course.enrollmentUrl} target="_blank" rel="noopener noreferrer">
+                        <a 
+                          href={course.enrollmentUrl.startsWith('http') ? course.enrollmentUrl : `https://${course.enrollmentUrl}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
                           <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
                         </a>
                       ) : (

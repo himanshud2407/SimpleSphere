@@ -20,9 +20,13 @@ export default function BecomeInstructor() {
     email: "",
     expertise: "Software Engineering",
   });
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setSubmitStatus({ type: '', message: '' });
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/instructors`, {
         method: 'POST',
@@ -30,15 +34,17 @@ export default function BecomeInstructor() {
         body: JSON.stringify(formData)
       });
       if (res.ok) {
-        alert("Thank you for applying! We will be in touch within 48 hours.");
+        setSubmitStatus({ type: 'success', message: "Thank you for applying! We will be in touch within 48 hours." });
         setFormData({ fullName: "", email: "", expertise: "Software Engineering" });
       } else {
-        alert("There was an error submitting your application. Please try again.");
+        const errorData = await res.json().catch(() => ({}));
+        setSubmitStatus({ type: 'error', message: `Error: ${errorData.error || 'There was an error submitting your application. Please try again.'}` });
       }
     } catch (err) {
-      console.error(err);
-      alert("There was an error submitting your application. Please try again.");
+      console.error('Submission error:', err);
+      setSubmitStatus({ type: 'error', message: "Failed to connect to the server. Please check your internet connection and try again." });
     }
+    setLoading(false);
   };
 
   return (
@@ -404,6 +410,11 @@ export default function BecomeInstructor() {
               </p>
             </div>
 
+            {submitStatus.message && (
+              <div className={`mb-6 p-4 rounded-xl text-center font-bold ${submitStatus.type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
+                {submitStatus.message}
+              </div>
+            )}
             <form
               onSubmit={handleSubmit}
               className="space-y-5 md:space-y-8 bg-surface-container-lowest p-0 md:p-12 md:rounded-[2.5rem] md:editorial-shadow bg-transparent md:bg-surface-container-lowest"
@@ -459,9 +470,10 @@ export default function BecomeInstructor() {
 
               <button
                 type="submit"
-                className="w-full signature-gradient text-white py-5 rounded-3xl md:rounded-2xl font-headline font-bold text-lg hover:shadow-xl transition-all active:scale-95 mt-4 editorial-shadow md:shadow-none"
+                disabled={loading}
+                className={`w-full signature-gradient text-white py-5 rounded-3xl md:rounded-2xl font-headline font-bold text-lg hover:shadow-xl transition-all active:scale-95 mt-4 editorial-shadow md:shadow-none ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                Apply Now
+                {loading ? 'Submitting...' : 'Apply Now'}
               </button>
 
               <p className="hidden md:block text-xs text-center text-outline leading-relaxed px-8">
