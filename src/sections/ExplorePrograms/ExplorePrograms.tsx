@@ -103,7 +103,7 @@ const ProgramCard = ({ program }: { program: any }) => {
         </div>
 
         <button
-          onClick={() => navigate("/contact")}
+          onClick={() => navigate("/courses")}
           className="mt-auto w-full py-3 bg-[#2563EB] hover:bg-blue-700 text-white font-black text-sm rounded-xl transition-all shadow-md shadow-blue-200 flex items-center justify-center gap-2 group/btn"
         >
           View & Apply

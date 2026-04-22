@@ -133,7 +133,7 @@ export default function TrendingCourses() {
                       <ButtonWithIconDemo text="Enroll Now" />
                     </a>
                   ) : (
-                    <Link to="/contact">
+                    <Link to="/courses">
                       <ButtonWithIconDemo text="Enroll Now" />
                     </Link>
                   )}

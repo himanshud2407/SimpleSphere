@@ -14,7 +14,7 @@ const ButtonWithIconDemo = ({
   to?: string;
 }) => {
   // Default link based on text if 'to' is not provided
-  const target = to || (text === "Enroll Now" ? "/contact" : "/courses");
+  const target = to || (text === "Enroll Now" ? "/courses" : "/courses");
 
   return (
     <Link to={target}>
