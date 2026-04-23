@@ -261,45 +261,47 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-full lg:w-64 bg-white border-r border-b lg:border-b-0 lg:min-h-screen p-6 shadow-sm flex flex-col">
         <h2 className="text-2xl font-bold text-blue-700 mb-2">Admin Panel</h2>
-        <p className="text-xs text-gray-500 mb-8 px-1">Logged in as {user?.email}</p>
-        
+        <p className="text-xs text-gray-500 mb-8 px-1">
+          Logged in as {user?.email}
+        </p>
+
         <ul className="space-y-2 flex-1">
           <li>
-            <button 
-              onClick={() => setActiveTab('courses')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'courses' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            <button
+              onClick={() => setActiveTab("courses")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "courses" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <BookOpen className="w-5 h-5" /> Courses
             </button>
           </li>
           <li>
-            <button 
-              onClick={() => setActiveTab('leads')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'leads' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            <button
+              onClick={() => setActiveTab("leads")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "leads" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <Users className="w-5 h-5" /> Leads
             </button>
           </li>
           <li>
-            <button 
-              onClick={() => setActiveTab('instructors')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'instructors' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            <button
+              onClick={() => setActiveTab("instructors")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "instructors" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <GraduationCap className="w-5 h-5" /> Instructors
             </button>
           </li>
           <li>
-            <button 
-              onClick={() => setActiveTab('careers')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'careers' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            <button
+              onClick={() => setActiveTab("careers")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "careers" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <MessageSquare className="w-5 h-5" /> Applications
             </button>
           </li>
           <li>
-            <button 
-              onClick={() => setActiveTab('settings')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'settings' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            <button
+              onClick={() => setActiveTab("settings")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "settings" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <Settings className="w-5 h-5" /> Settings
             </button>
@@ -307,7 +309,7 @@ export default function AdminDashboard() {
         </ul>
 
         {/* Logout Button */}
-        <button 
+        <button
           onClick={logout}
           className="mt-auto flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
         >
@@ -315,61 +317,81 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-
       {/* Main Content */}
       <div className="flex-1 p-4 lg:p-8">
-        
         {/* COURSES TAB */}
-        {activeTab === 'courses' && (
+        {activeTab === "courses" && (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center max-w-2xl mx-auto">
             <div className="bg-blue-50 p-8 rounded-[2.5rem] mb-8">
               <BookOpen className="w-16 h-16 text-blue-600 mx-auto mb-6" />
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">Manage Your Courses</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                Manage Your Courses
+              </h1>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                You have successfully migrated to **Sanity CMS**. To add, edit, or delete courses, 
-                please use the professional Sanity Studio interface. This ensures your content 
-                stays organized and looks premium across the platform.
+                You have successfully migrated to **Sanity CMS**. To add, edit,
+                or delete courses, please use the professional Sanity Studio
+                interface. This ensures your content stays organized and looks
+                premium across the platform.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
-                  href="http://localhost:3333" 
-                  target="_blank" 
+                <a
+                  href={
+                    import.meta.env.PROD
+                      ? "https://simplesphere-studio.sanity.studio"
+                      : "http://localhost:3333"
+                  }
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
                 >
                   <Plus className="w-5 h-5" /> Open Sanity Studio
                 </a>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setActiveTab('leads')}
+                <Button
+                  variant="outline"
+                  onClick={() => setActiveTab("leads")}
                   className="px-8 py-3 rounded-xl border-gray-200"
                 >
                   View Recent Leads
                 </Button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left w-full">
               <div className="p-6 bg-white border rounded-2xl">
                 <h3 className="font-bold text-gray-900 mb-2">Why Sanity?</h3>
-                <p className="text-sm text-gray-500">Structured content, real-time collaboration, and a premium editing experience for your curriculum.</p>
+                <p className="text-sm text-gray-500">
+                  Structured content, real-time collaboration, and a premium
+                  editing experience for your curriculum.
+                </p>
               </div>
               <div className="p-6 bg-white border rounded-2xl">
-                <h3 className="font-bold text-gray-900 mb-2">Local Development</h3>
-                <p className="text-sm text-gray-500">Run <code className="bg-gray-100 px-1 rounded">npm run dev</code> inside the <code className="bg-gray-100 px-1 rounded">/simplesphere</code> directory to start the studio.</p>
+                <h3 className="font-bold text-gray-900 mb-2">
+                  Local Development
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Run{" "}
+                  <code className="bg-gray-100 px-1 rounded">npm run dev</code>{" "}
+                  inside the{" "}
+                  <code className="bg-gray-100 px-1 rounded">
+                    /simplesphere
+                  </code>{" "}
+                  directory to start the studio.
+                </p>
               </div>
             </div>
           </div>
         )}
 
         {/* LEADS TAB */}
-        {activeTab === 'leads' && (
+        {activeTab === "leads" && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">Contact Form Leads</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Contact Form Leads
+              </h1>
             </div>
-            
+
             <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -384,28 +406,51 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {leads.length === 0 ? (
-                    <tr><td colSpan={5} className="p-4 text-center text-gray-500">No leads found yet.</td></tr>
-                  ) : leads.map((lead: any) => (
-                    <tr key={lead.id} className={`border-b hover:bg-gray-50 ${lead.status === 'done' ? 'opacity-50' : ''}`}>
-                      <td className="p-4">{lead.name}</td>
-                      <td className="p-4">{lead.email}</td>
-                      <td className="p-4">{lead.subject}</td>
-                      <td className="p-4 max-w-xs truncate">{lead.message}</td>
-                      <td className="p-4">{new Date(lead.created_at).toLocaleDateString()}</td>
-                      <td className="p-4 flex gap-2">
-                        <button 
-                          onClick={() => handleMarkLeadDone(lead.id, lead.status)} 
-                          className={`${lead.status === 'done' ? 'text-green-600' : 'text-gray-400'} hover:text-green-700`}
-                          title={lead.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
-                        >
-                          <CheckCircle className="w-5 h-5"/>
-                        </button>
-                        <button onClick={() => handleDeleteLead(lead.id)} className="text-red-500 hover:text-red-700" title="Delete Lead">
-                          <Trash2 className="w-5 h-5"/>
-                        </button>
+                    <tr>
+                      <td colSpan={5} className="p-4 text-center text-gray-500">
+                        No leads found yet.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    leads.map((lead: any) => (
+                      <tr
+                        key={lead.id}
+                        className={`border-b hover:bg-gray-50 ${lead.status === "done" ? "opacity-50" : ""}`}
+                      >
+                        <td className="p-4">{lead.name}</td>
+                        <td className="p-4">{lead.email}</td>
+                        <td className="p-4">{lead.subject}</td>
+                        <td className="p-4 max-w-xs truncate">
+                          {lead.message}
+                        </td>
+                        <td className="p-4">
+                          {new Date(lead.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="p-4 flex gap-2">
+                          <button
+                            onClick={() =>
+                              handleMarkLeadDone(lead.id, lead.status)
+                            }
+                            className={`${lead.status === "done" ? "text-green-600" : "text-gray-400"} hover:text-green-700`}
+                            title={
+                              lead.status === "done"
+                                ? "Mark as Pending"
+                                : "Mark as Done"
+                            }
+                          >
+                            <CheckCircle className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteLead(lead.id)}
+                            className="text-red-500 hover:text-red-700"
+                            title="Delete Lead"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -413,50 +458,81 @@ export default function AdminDashboard() {
         )}
 
         {/* INSTRUCTORS TAB */}
-        {activeTab === 'instructors' && (
+        {activeTab === "instructors" && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">Instructor Applications</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Instructor Applications
+              </h1>
             </div>
-            
+
             <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 border-b">
                     <th className="p-4 font-semibold text-gray-600">Name</th>
                     <th className="p-4 font-semibold text-gray-600">Email</th>
-                    <th className="p-4 font-semibold text-gray-600">Expertise</th>
-                    <th className="p-4 font-semibold text-gray-600">Date Applied</th>
+                    <th className="p-4 font-semibold text-gray-600">
+                      Expertise
+                    </th>
+                    <th className="p-4 font-semibold text-gray-600">
+                      Date Applied
+                    </th>
                     <th className="p-4 font-semibold text-gray-600">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {instructors.length === 0 ? (
-                    <tr><td colSpan={4} className="p-4 text-center text-gray-500">No applications found yet.</td></tr>
-                  ) : instructors.map((inst: any) => (
-                    <tr key={inst.id} className={`border-b hover:bg-gray-50 ${inst.status === 'done' ? 'opacity-50' : ''}`}>
-                      <td className="p-4">{inst.fullname || inst.fullName}</td>
-                      <td className="p-4">{inst.email}</td>
-                      <td className="p-4">
-                        <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
-                          {inst.expertise}
-                        </span>
-                      </td>
-                      <td className="p-4">{inst.created_at ? new Date(inst.created_at).toLocaleDateString() : 'N/A'}</td>
-                      <td className="p-4 flex gap-2">
-                        <button 
-                          onClick={() => handleMarkInstructorDone(inst.id, inst.status)} 
-                          className={`${inst.status === 'done' ? 'text-green-600' : 'text-gray-400'} hover:text-green-700`}
-                          title={inst.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
-                        >
-                          <CheckCircle className="w-5 h-5"/>
-                        </button>
-                        <button onClick={() => handleDeleteInstructor(inst.id)} className="text-red-500 hover:text-red-700" title="Delete Application">
-                          <Trash2 className="w-5 h-5"/>
-                        </button>
+                    <tr>
+                      <td colSpan={4} className="p-4 text-center text-gray-500">
+                        No applications found yet.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    instructors.map((inst: any) => (
+                      <tr
+                        key={inst.id}
+                        className={`border-b hover:bg-gray-50 ${inst.status === "done" ? "opacity-50" : ""}`}
+                      >
+                        <td className="p-4">
+                          {inst.fullname || inst.fullName}
+                        </td>
+                        <td className="p-4">{inst.email}</td>
+                        <td className="p-4">
+                          <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
+                            {inst.expertise}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          {inst.created_at
+                            ? new Date(inst.created_at).toLocaleDateString()
+                            : "N/A"}
+                        </td>
+                        <td className="p-4 flex gap-2">
+                          <button
+                            onClick={() =>
+                              handleMarkInstructorDone(inst.id, inst.status)
+                            }
+                            className={`${inst.status === "done" ? "text-green-600" : "text-gray-400"} hover:text-green-700`}
+                            title={
+                              inst.status === "done"
+                                ? "Mark as Pending"
+                                : "Mark as Done"
+                            }
+                          >
+                            <CheckCircle className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteInstructor(inst.id)}
+                            className="text-red-500 hover:text-red-700"
+                            title="Delete Application"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -464,58 +540,106 @@ export default function AdminDashboard() {
         )}
 
         {/* CAREERS TAB */}
-        {activeTab === 'careers' && (
+        {activeTab === "careers" && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">Job Applications</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Job Applications
+              </h1>
             </div>
-            
+
             <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 border-b">
-                    <th className="p-4 font-semibold text-gray-600">Candidate</th>
+                    <th className="p-4 font-semibold text-gray-600">
+                      Candidate
+                    </th>
                     <th className="p-4 font-semibold text-gray-600">Email</th>
-                    <th className="p-4 font-semibold text-gray-600">Institution</th>
-                    <th className="p-4 font-semibold text-gray-600">Resume/Link</th>
+                    <th className="p-4 font-semibold text-gray-600">
+                      Institution
+                    </th>
+                    <th className="p-4 font-semibold text-gray-600">
+                      Resume/Link
+                    </th>
                     <th className="p-4 font-semibold text-gray-600">Date</th>
                     <th className="p-4 font-semibold text-gray-600">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {careers.length === 0 ? (
-                    <tr><td colSpan={6} className="p-4 text-center text-gray-500">No applications found yet.</td></tr>
-                  ) : careers.map((app: any) => (
-                    <tr key={app.id} className={`border-b hover:bg-gray-50 ${app.status === 'done' ? 'opacity-50' : ''}`}>
-                      <td className="p-4 font-medium">{app.fullName || app.fullname}</td>
-                      <td className="p-4">{app.email}</td>
-                      <td className="p-4 text-gray-500 text-sm">{app.university || 'N/A'}</td>
-                      <td className="p-4">
-                        <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline flex items-center gap-1 text-sm">
-                          View Resume
-                        </a>
-                      </td>
-                      <td className="p-4 text-gray-400 text-sm">{app.created_at ? new Date(app.created_at).toLocaleDateString() : 'N/A'}</td>
-                      <td className="p-4 flex gap-2">
-                        <button 
-                          onClick={() => handleMarkCareerDone(app.id, app.status)} 
-                          className={`${app.status === 'done' ? 'text-green-600' : 'text-gray-400'} hover:text-green-700`}
-                          title={app.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
-                        >
-                          <CheckCircle className="w-5 h-5"/>
-                        </button>
-                        <button onClick={() => handleDeleteCareer(app.id)} className="text-red-500 hover:text-red-700" title="Delete Application">
-                          <Trash2 className="w-5 h-5"/>
-                        </button>
+                    <tr>
+                      <td colSpan={6} className="p-4 text-center text-gray-500">
+                        No applications found yet.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    careers.map((app: any) => (
+                      <tr
+                        key={app.id}
+                        className={`border-b hover:bg-gray-50 ${app.status === "done" ? "opacity-50" : ""}`}
+                      >
+                        <td className="p-4 font-medium">
+                          {app.fullName || app.fullname}
+                        </td>
+                        <td className="p-4">{app.email}</td>
+                        <td className="p-4 text-gray-500 text-sm">
+                          {app.university || "N/A"}
+                        </td>
+                        <td className="p-4">
+                          <a
+                            href={
+                              (app.resumeUrl || app.resumeurl)?.startsWith(
+                                "/uploads",
+                              )
+                                ? `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${app.resumeUrl || app.resumeurl}`
+                                : app.resumeUrl || app.resumeurl
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline flex items-center gap-1 text-sm font-semibold"
+                          >
+                            <span className="material-symbols-outlined text-sm">
+                              open_in_new
+                            </span>
+                            View Resume
+                          </a>
+                        </td>
+                        <td className="p-4 text-gray-400 text-sm">
+                          {app.created_at
+                            ? new Date(app.created_at).toLocaleDateString()
+                            : "N/A"}
+                        </td>
+                        <td className="p-4 flex gap-2">
+                          <button
+                            onClick={() =>
+                              handleMarkCareerDone(app.id, app.status)
+                            }
+                            className={`${app.status === "done" ? "text-green-600" : "text-gray-400"} hover:text-green-700`}
+                            title={
+                              app.status === "done"
+                                ? "Mark as Pending"
+                                : "Mark as Done"
+                            }
+                          >
+                            <CheckCircle className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCareer(app.id)}
+                            className="text-red-500 hover:text-red-700"
+                            title="Delete Application"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

@@ -1,68 +1,103 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 export default function CareerPage() {
-  const [formData, setFormData] = useState({
+  const initialFormState = {
     fullName: '',
     email: '',
     university: '',
-    resumeUrl: '' // In a real app, this would be a file upload URL
-  });
+    resumeUrl: ''
+  };
+  const [formData, setFormData] = useState(initialFormState);
+  const [file, setFile] = useState<File | null>(null);
+  const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!file) {
+      setError('Please upload your resume.');
+      return;
+    }
     setLoading(true);
     setError('');
+    setSubmitted(false);
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      
+      // 1. Upload file
+      const fileData = new FormData();
+      fileData.append('file', file);
+      
+      const uploadRes = await fetch(`${apiUrl}/api/upload`, {
+        method: 'POST',
+        body: fileData,
+      });
+      
+      const uploadResult = await uploadRes.json();
+      if (!uploadRes.ok) throw new Error(uploadResult.error || 'File upload failed');
+
+      // 2. Submit application with file URL
       const response = await fetch(`${apiUrl}/api/careers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          university: formData.university,
+          resumeUrl: uploadResult.url
+        }),
       });
 
       const data = await response.json();
       if (response.ok) {
         setSubmitted(true);
+        setFormData(initialFormState);
+        setFile(null);
+        // Clear success message after 5 seconds
+        setTimeout(() => setSubmitted(false), 5000);
       } else {
         setError(data.error || 'Failed to submit application');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Submission error:', err);
-      setError('An error occurred. Please try again later.');
+      setError(err.message || 'An error occurred. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
-
-  if (submitted) {
-    return (
-      <main className="max-w-[1280px] mx-auto px-6 py-32 text-center">
-        <div className="bg-white p-12 rounded-3xl shadow-xl border border-blue-50 max-w-2xl mx-auto">
-          <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span className="material-symbols-outlined text-4xl">check_circle</span>
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Application Received!</h1>
-          <p className="text-lg text-gray-600 mb-8">
-            Thank you for your interest in Simple Sphere. Our recruitment team will review your profile and get back to you shortly.
-          </p>
-          <button 
-            onClick={() => setSubmitted(false)}
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            Back to Careers
-          </button>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <>
@@ -143,7 +178,7 @@ export default function CareerPage() {
               <p className="text-base text-gray-600">Your journey towards impactful engineering starts here.</p>
             </div>
             
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-8" onDragEnter={handleDrag}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="fullName">Full Name</label>
@@ -188,18 +223,46 @@ export default function CareerPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="resumeUrl">Resume Link / Portfolio</label>
-                <input 
-                  required
-                  className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all" 
-                  id="resumeUrl" 
-                  name="resumeUrl" 
-                  placeholder="Google Drive, Dropbox, or Portfolio URL" 
-                  type="url"
-                  value={formData.resumeUrl}
-                  onChange={handleChange}
-                />
+                <label className="text-sm font-bold text-gray-700 ml-1">Resume / Portfolio (PDF)</label>
+                <div 
+                  className={`relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-[2rem] transition-all cursor-pointer ${dragActive ? 'border-blue-600 bg-blue-50/50' : 'border-gray-200 bg-gray-50/30 hover:border-blue-400 hover:bg-gray-50/50'}`}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    ref={fileInputRef} 
+                    onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx"
+                  />
+                  <div className="flex flex-col items-center justify-center space-y-3">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+                      <span className="material-symbols-outlined text-2xl font-bold">
+                        {file ? 'description' : 'upload_file'}
+                      </span>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-bold text-gray-800">
+                        {file ? file.name : 'Drop your resume here'}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {file ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` : 'or click to browse from device'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              {submitted && (
+                <div className="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
+                  <span className="material-symbols-outlined font-bold">check_circle</span>
+                  <p className="text-sm font-semibold">Application submitted successfully! We'll be in touch soon.</p>
+                </div>
+              )}
 
               {error && (
                 <p className="text-red-500 text-sm font-medium bg-red-50 p-4 rounded-xl border border-red-100">
@@ -216,7 +279,7 @@ export default function CareerPage() {
                   {loading ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      Processing...
+                      Processing Application...
                     </>
                   ) : (
                     'Submit Application'
