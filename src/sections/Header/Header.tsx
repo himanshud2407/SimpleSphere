@@ -33,8 +33,8 @@ export default function Header() {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full transition-all duration-300",
-      scrolled ? "py-2" : "py-4 md:py-6"
+      "sticky top-0 z-50 w-full transition-all duration-300 py-2",
+      scrolled ? "py-4" : "py-2"
     )}>
       <div
         className={cn(
