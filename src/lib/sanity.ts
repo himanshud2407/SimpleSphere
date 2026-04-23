@@ -2,9 +2,9 @@ import { createClient } from '@sanity/client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 
 export const sanityClient = createClient({
-  projectId: '4hou47s4', // Updated project ID from your new Sanity project
-  dataset: 'production',
-  useCdn: false, // Set to false for development to see fresh data instantly
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || '4hou47s4',
+  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+  useCdn: true, // Switched to true for better production performance
   apiVersion: '2024-03-15',
 });
 
