@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduPulse - Master Cybersecurity &amp; Web3</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#434655",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#b9c7df",
+                        "on-tertiary-fixed": "#0d1c2e",
+                        "on-secondary-fixed": "#131b2e",
+                        "inverse-surface": "#2d3133",
+                        "primary-container": "#2563eb",
+                        "on-tertiary-container": "#e9f0ff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#0053db",
+                        "secondary-container": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#3a485b",
+                        "tertiary": "#48566a",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#606e83",
+                        "surface-bright": "#f7f9fb",
+                        "background": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "primary": "#004ac6",
+                        "surface-dim": "#d8dadc",
+                        "inverse-primary": "#b4c5ff",
+                        "surface": "#f7f9fb",
+                        "secondary": "#565e74",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-container": "#5c647a",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-high": "#e6e8ea",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "outline": "#737686",
+                        "surface-container": "#eceef0",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "tertiary-fixed": "#d5e3fc",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#eeefff",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c3c6d7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "12px",
+                        "gutter": "16px",
+                        "base": "8px",
+                        "stack-lg": "40px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "headline-sm": ["Lexend"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Lexend"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Lexend"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-5 h-16 sticky top-0 z-50 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400" data-icon="menu">menu</span>
+</button>
+<h1 class="text-xl font-black text-blue-600 dark:text-blue-500 font-lexend tracking-tight">EduPulse</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male student with a friendly expression and neutral studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3LDDHOCn2xhpP_BdKlCe2x9l9fkIJLgQ9bxrnE7UBpikHAYB3yPQ03w13urqBL8VvImWMjmtbNcF1h2kjZ3GInFXmMlHhuS43JQ1Vvgzlf1httL6cxPW0CCFrce1xA5ipbDsYsMzMkJ-QaJwkY4JuNDVQkc1NZl850tp5ItOvZftwrMYymKfeMHQbXbc2HVx6H7A7dYFtxHnx-OmXbabIFdxy_ZHEmgcR-k_Z0GFcpr2WuRXi58ZZ7bybrmzoisDtK5o3EkKiRCYA"/>
+</div>
+</header>
+<main class="pb-24">
+<!-- Hero Section -->
+<section class="px-margin-mobile pt-stack-lg pb-stack-md">
+<div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary to-blue-800 p-8 text-on-primary">
+<div class="relative z-10 max-w-md">
+<h2 class="font-headline-lg text-headline-lg mb-4 leading-[1.1]">Master Cybersecurity &amp; Web3 with a Smarter, Faster Learning System</h2>
+<p class="font-body-md text-body-md opacity-90 mb-8">Personalized pathways for future-proof skills. Join 50k+ learners globally.</p>
+<!-- Search Bar -->
+<div class="relative flex items-center group">
+<span class="material-symbols-outlined absolute left-4 text-on-surface-variant group-focus-within:text-primary transition-colors" data-icon="search">search</span>
+<input class="w-full h-14 pl-12 pr-4 rounded-xl border-none bg-white/95 text-on-surface placeholder:text-slate-400 focus:ring-2 focus:ring-primary-container shadow-lg transition-all text-body-md" placeholder="Search courses, skills..." type="text"/>
+</div>
+</div>
+<!-- Abstract Decorative Element -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute right-4 bottom-4 opacity-20">
+<span class="material-symbols-outlined text-[120px]" data-icon="security">security</span>
+</div>
+</div>
+</section>
+<!-- Training Categories -->
+<section class="space-y-stack-sm">
+<div class="px-margin-mobile flex justify-between items-end">
+<h3 class="font-headline-sm text-headline-sm">Live Training Categories</h3>
+<button class="text-primary font-label-lg hover:underline">View all</button>
+</div>
+<div class="flex overflow-x-auto gap-gutter px-margin-mobile hide-scrollbar snap-x">
+<!-- Category Item 1 -->
+<div class="snap-start flex-shrink-0 w-32 flex flex-col items-center gap-2 group">
+<div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="campaign">campaign</span>
+</div>
+<span class="font-label-md text-center">Digital Marketing</span>
+</div>
+<!-- Category Item 2 -->
+<div class="snap-start flex-shrink-0 w-32 flex flex-col items-center gap-2 group">
+<div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="code">code</span>
+</div>
+<span class="font-label-md text-center">Web Dev</span>
+</div>
+<!-- Category Item 3 -->
+<div class="snap-start flex-shrink-0 w-32 flex flex-col items-center gap-2 group">
+<div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="router">router</span>
+</div>
+<span class="font-label-md text-center">IoT Systems</span>
+</div>
+<!-- Category Item 4 -->
+<div class="snap-start flex-shrink-0 w-32 flex flex-col items-center gap-2 group">
+<div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="enhanced_encryption">enhanced_encryption</span>
+</div>
+<span class="font-label-md text-center">Cybersecurity</span>
+</div>
+<!-- Category Item 5 -->
+<div class="snap-start flex-shrink-0 w-32 flex flex-col items-center gap-2 group">
+<div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl" data-icon="currency_bitcoin">currency_bitcoin</span>
+</div>
+<span class="font-label-md text-center">Web3 &amp; Crypto</span>
+</div>
+</div>
+</section>
+<!-- Why Choose Us - Bento Grid Style -->
+<section class="px-margin-mobile pt-stack-lg space-y-stack-md">
+<h3 class="font-headline-sm text-headline-sm">Why Choose Us</h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Feature 1 -->
+<div class="col-span-2 p-6 rounded-2xl bg-white shadow-[0_4px_12px_rgba(37,99,235,0.06)] border border-slate-50">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+</div>
+<div>
+<h4 class="font-label-lg">Certified Instructors</h4>
+<p class="font-body-sm text-on-surface-variant">Learn from industry experts with real-world experience.</p>
+</div>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="p-6 rounded-2xl bg-white shadow-[0_4px_12px_rgba(37,99,235,0.06)] border border-slate-50 flex flex-col gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="schedule">schedule</span>
+<div>
+<h4 class="font-label-lg">Flexible Schedule</h4>
+<p class="font-body-sm text-on-surface-variant">Learn at your own pace anytime.</p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="p-6 rounded-2xl bg-white shadow-[0_4px_12px_rgba(37,99,235,0.06)] border border-slate-50 flex flex-col gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="terminal">terminal</span>
+<div>
+<h4 class="font-label-lg">Hands-on Labs</h4>
+<p class="font-body-sm text-on-surface-variant">Practical sandboxes for practice.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Courses Section -->
+<section class="px-margin-mobile pt-stack-lg space-y-stack-sm">
+<h3 class="font-headline-sm text-headline-sm">Popular Courses</h3>
+<div class="space-y-4">
+<div class="flex gap-4 p-3 bg-white rounded-2xl shadow-sm">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+<img alt="Cybersecurity" class="w-full h-full object-cover" data-alt="Digital representation of network security with glowing blue locks and binary code on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq-IvP84dsAWjUnpKyAn4ggBgZ9kL25rHBucM_WjFLoORYE4Xu8OW7GVsubndLkakEEndAW5_QT2mbTtL3IOJejUEu6a3gX3eLkClnFKG0qzChb1WLIYvKK6pSuy695quxUd6BJKhZzGdV4v8b9sCWNl0BNKoy4v76-KFEV9fEQ-CPlcxn2FNlzIzRfrchIjwTTjE2HZjSbJskF6V-_crEU8KGs1aCzvOsiaRxQPScC3WOtSZkBG2aTLTbiVOWggFsinSfPl9U2HG2"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-[14px] text-yellow-500" data-icon="star" data-weight="fill">star</span>
+<span class="text-label-md text-on-surface-variant">4.9 (2.4k reviews)</span>
+</div>
+<h4 class="font-label-lg line-clamp-1">Ethical Hacking &amp; Network Security</h4>
+<p class="text-primary font-label-lg mt-1">$49.99</p>
+</div>
+<div class="flex items-start">
+<button class="p-1 text-slate-300">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_12px_rgba(37,99,235,0.08)] rounded-t-2xl">
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20 rounded-xl px-3 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="home" data-weight="fill">home</span>
+<span class="font-lexend text-[11px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="font-lexend text-[11px] font-medium">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300" href="#">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+<span class="font-lexend text-[11px] font-medium">Certifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-lexend text-[11px] font-medium">Help</span>
+</a>
+</nav>
+<!-- FAB (Suppressed on Home by choice of visual balance, but available for interaction) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary-container text-white rounded-2xl shadow-lg flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</body></html>

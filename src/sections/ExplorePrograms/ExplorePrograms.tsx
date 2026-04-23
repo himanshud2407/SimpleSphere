@@ -43,7 +43,7 @@ const ProgramCard = ({ program }: { program: any }) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col hover:shadow-2xl hover:shadow-blue-500/10 transition-all group h-full min-w-[280px] md:min-w-0"
+      className="bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col hover:shadow-2xl hover:shadow-blue-500/10 transition-all group h-full w-full md:min-w-0"
     >
       <div className="relative h-44 overflow-hidden">
         <img
@@ -310,7 +310,7 @@ export default function ExplorePrograms() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
                     <div className="pt-4 pb-2 px-1">
-                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+                      <div className="flex flex-col gap-4 pb-4">
                         {loading ? (
                           <div className="w-full py-10 flex flex-col items-center justify-center">
                             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-3" />
@@ -318,10 +318,10 @@ export default function ExplorePrograms() {
                               Loading programs...
                             </p>
                           </div>
-                        ) : coursesMap[activeTab] &&
-                          coursesMap[activeTab].length > 0 ? (
+                        ) : coursesMap[cat.id] &&
+                          coursesMap[cat.id].length > 0 ? (
                           coursesMap[cat.id].map((program) => (
-                            <div key={program.id} className="snap-center">
+                            <div key={program.id} className="w-full">
                               <ProgramCard program={program} />
                             </div>
                           ))

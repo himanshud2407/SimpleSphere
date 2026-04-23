@@ -38,9 +38,13 @@ export default function Certification() {
                  </li>
                ))}
              </ul>
-             <button className="px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_25px_rgba(37,99,235,0.5)] active:scale-95">
-               View Sample Certificate
-             </button>
+              <a
+                href="/Certificate.jpeg"
+                download="Certificate.jpeg"
+                className="inline-block px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_25px_rgba(37,99,235,0.5)] active:scale-95 cursor-pointer"
+              >
+                View Sample Certificate
+              </a>
           </motion.div>
           
           <motion.div 

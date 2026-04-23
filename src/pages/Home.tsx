@@ -11,7 +11,7 @@ import OurExperts from '@/sections/OurExperts/OurExperts';
 import Testimonials from '@/sections/Testimonials/Testimonials';
 import FAQ from '@/sections/FAQ/FAQ';
 import Blog from '@/sections/Blog/Blog';
-import TrendingCourses from '@/sections/TrendingCourses/TrendingCourses';
+import MobileHome from '@/sections/MobileHome/MobileHome';
 import { SEO } from '@/components/SEO';
 
 export default function Home() {
@@ -22,22 +22,31 @@ export default function Home() {
         description="SimpleSphere - The ultimate platform for professional growth. Learn from industry experts, master high-demand skills in AI, Software, and Data Science, and accelerate your career."
         keywords="online learning, career growth, tech education, AI training, software development bootcamp, simplesphere"
       />
-      <Hero />
-      {/*    */}
-      <div className="hidden md:block">
-        <MacbookScrollDemo />
-      </div>
-      <Categories />
-      <Stats />
-      <ExplorePrograms />
-      <InstructorBanner />
-      <Certification />
-      <WhyChooseUs />
-      <OurExperts />
 
-      <Testimonials />
-      <FAQ />
-      <Blog />
+      {/* Mobile-only: Stitch redesigned home */}
+      <div className="block md:hidden">
+        <MobileHome />
+      </div>
+
+      {/* Desktop-only: Original home sections */}
+      <div className="hidden md:block">
+        <Hero />
+        {/*    */}
+        <div className="hidden md:block">
+          <MacbookScrollDemo />
+        </div>
+        <Categories />
+        <Stats />
+        <ExplorePrograms />
+        <InstructorBanner />
+        <Certification />
+        <WhyChooseUs />
+        <OurExperts />
+
+        <Testimonials />
+        <FAQ />
+        <Blog />
+      </div>
     </>
   );
 }

@@ -143,13 +143,9 @@ export default function TrendingCourses() {
                 <p className="text-sm text-gray-500 mb-6 line-clamp-2">{course.description || 'Improve your skills with this course.'}</p>
                 <div className="flex items-center justify-between mt-auto">
                   {course.enrollmentUrl ? (
-                    <a href={course.enrollmentUrl} target="_blank" rel="noopener noreferrer">
-                      <ButtonWithIconDemo text="Enroll Now" />
-                    </a>
+                    <ButtonWithIconDemo text="Enroll Now" to={course.enrollmentUrl} isExternal />
                   ) : (
-                    <Link to={`/course/${course.id}`}>
-                      <ButtonWithIconDemo text="Enroll Now" />
-                    </Link>
+                    <ButtonWithIconDemo text="Enroll Now" to={`/course/${course.id}`} />
                   )}
                 </div>
               </div>
