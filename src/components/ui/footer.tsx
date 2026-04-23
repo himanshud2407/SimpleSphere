@@ -128,6 +128,7 @@ export default function FooterSection() {
                         <div className="flex gap-6 text-xs uppercase tracking-widest font-semibold">
                             <Link to="/privacy-policy" className="hover:text-blue-600 transition-colors">Privacy</Link>
                             <Link to="/terms-and-conditions" className="hover:text-blue-600 transition-colors">Terms</Link>
+                            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">Sitemap</a>
                         </div>
                     </div>
                 </motion.div>

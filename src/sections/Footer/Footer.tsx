@@ -147,6 +147,9 @@ export default function Footer() {
               <Link to="/terms-and-conditions" className="hover:text-white transition-colors">
                 Terms & Conditions
               </Link>
+              <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                Sitemap
+              </a>
             </div>
           </div>
         </div>
