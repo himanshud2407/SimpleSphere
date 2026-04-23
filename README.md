@@ -21,9 +21,7 @@
 - 🤖 **AI Integration**: Prepared for Google Gemini AI capabilities.
 
 ---
-
 ## 🛠️ Tech Stack
-
 ### Frontend
 - **Framework**: React 19 (Functional Components, Hooks)
 - **Bundler**: Vite
