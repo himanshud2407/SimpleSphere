@@ -56,8 +56,18 @@ CREATE TABLE IF NOT EXISTS careers (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   fullName text NOT NULL,
   email text NOT NULL,
-  university text,
+  position text,
   resumeUrl text,
   status text DEFAULT 'pending', -- 'pending' or 'done'
+  created_at timestamp with time zone DEFAULT now()
+);
+
+-- 5. JOBS TABLE (Open Positions)
+CREATE TABLE IF NOT EXISTS jobs (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  title text NOT NULL,
+  description text NOT NULL,
+  vacancies integer DEFAULT 1,
+  pdf_url text,
   created_at timestamp with time zone DEFAULT now()
 );

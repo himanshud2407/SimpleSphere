@@ -242,9 +242,40 @@ app.patch('/api/instructors/:id', authenticateToken, async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true });
 });
+// ------------- JOBS API (Supabase) -------------
+app.get('/api/jobs', async (req, res) => {
+  const { data, error } = await supabase.from('jobs').select('*').order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+app.post('/api/jobs', authenticateToken, async (req, res) => {
+  const { title, description, vacancies, pdf_url } = req.body;
+  if (!title || !description) return res.status(400).json({ error: 'Title and description are required.' });
+
+  const { data, error } = await supabase.from('jobs').insert([{ title, description, vacancies: vacancies || 1, pdf_url }]).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true, data });
+});
+
+app.put('/api/jobs/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { title, description, vacancies, pdf_url } = req.body;
+  const { data, error } = await supabase.from('jobs').update({ title, description, vacancies, pdf_url }).eq('id', id).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true, data });
+});
+
+app.delete('/api/jobs/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { error } = await supabase.from('jobs').delete().eq('id', id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
 // ------------- CAREERS API (Supabase) -------------
 app.post('/api/careers', async (req, res) => {
-  const { fullName, email, university, resumeUrl } = req.body;
+  const { fullName, email, position, resumeUrl } = req.body;
   
   if (!fullName || !email) {
     return res.status(400).json({ error: 'Full name and email are required.' });
@@ -253,7 +284,7 @@ app.post('/api/careers', async (req, res) => {
   const { data, error } = await supabase.from('careers').insert([{ 
     fullname: fullName, 
     email, 
-    university,
+    position,
     resumeurl: resumeUrl,
     status: 'pending'
   }]).select();

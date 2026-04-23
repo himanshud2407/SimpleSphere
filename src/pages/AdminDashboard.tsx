@@ -10,7 +10,13 @@ export default function AdminDashboard() {
   const [leads, setLeads] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [careers, setCareers] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // Jobs Form State
+  const [showJobForm, setShowJobForm] = useState(false);
+  const [jobFormData, setJobFormData] = useState({ title: '', description: '', vacancies: 1, pdf_url: '', id: null as string | null });
+  const [jobFile, setJobFile] = useState<File | null>(null);
 
   // Form State
   const [showCourseForm, setShowCourseForm] = useState(false);
@@ -29,6 +35,7 @@ export default function AdminDashboard() {
     fetchLeads();
     fetchInstructors();
     fetchCareers();
+    fetchJobs();
   }, []);
 
   const getHeaders = () => ({
@@ -88,6 +95,72 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error('Error fetching careers:', err);
     }
+  };
+
+  const fetchJobs = async () => {
+    try {
+      const res = await fetch(`${API_URL}/jobs`, { headers: getHeaders() });
+      const data = await handleResponse(res);
+      if (data && Array.isArray(data)) setJobs(data);
+    } catch (err) {
+      console.error('Error fetching jobs:', err);
+    }
+  };
+
+  const handleSaveJob = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      let pdf_url = jobFormData.pdf_url;
+      if (jobFile) {
+        const fileData = new FormData();
+        fileData.append('file', jobFile);
+        const uploadRes = await fetch(`${API_URL}/upload`, { method: 'POST', body: fileData });
+        const uploadResult = await uploadRes.json();
+        if (uploadRes.ok) pdf_url = uploadResult.url;
+      }
+
+      const method = jobFormData.id ? 'PUT' : 'POST';
+      const url = jobFormData.id ? `${API_URL}/jobs/${jobFormData.id}` : `${API_URL}/jobs`;
+      
+      const res = await fetch(url, {
+        method,
+        headers: getHeaders(),
+        body: JSON.stringify({ ...jobFormData, pdf_url })
+      });
+      
+      if (res.ok) {
+        setShowJobForm(false);
+        setJobFormData({ title: '', description: '', vacancies: 1, pdf_url: '', id: null });
+        setJobFile(null);
+        fetchJobs();
+      }
+    } catch (err) {
+      console.error('Error saving job:', err);
+    }
+    setLoading(false);
+  };
+
+  const handleDeleteJob = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this job posting?')) return;
+    try {
+      await fetch(`${API_URL}/jobs/${id}`, { method: 'DELETE', headers: getHeaders() });
+      fetchJobs();
+    } catch (err) {
+      console.error('Error deleting job:', err);
+    }
+  };
+
+  const handleEditJob = (job: any) => {
+    setJobFormData({
+      title: job.title || '',
+      description: job.description || '',
+      vacancies: job.vacancies || 1,
+      pdf_url: job.pdf_url || '',
+      id: job.id
+    });
+    setJobFile(null);
+    setShowJobForm(true);
   };
 
   const handleSaveCourse = async (e: React.FormEvent) => {
@@ -296,6 +369,14 @@ export default function AdminDashboard() {
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "careers" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <MessageSquare className="w-5 h-5" /> Applications
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => setActiveTab("jobs")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "jobs" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
+            >
+              <Users className="w-5 h-5" /> Job Postings
             </button>
           </li>
           <li>
@@ -638,6 +719,77 @@ export default function AdminDashboard() {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+        {/* JOBS TAB */}
+        {activeTab === "jobs" && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold text-gray-900">Job Postings</h1>
+              <Button onClick={() => setShowJobForm(true)} className="flex items-center gap-2">
+                <Plus className="w-4 h-4" /> Add Job
+              </Button>
+            </div>
+
+            {showJobForm ? (
+              <div className="bg-white rounded-2xl shadow-sm border p-6 mb-8">
+                <h2 className="text-xl font-bold mb-4">{jobFormData.id ? 'Edit Job' : 'Add New Job'}</h2>
+                <form onSubmit={handleSaveJob} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Job Title *</label>
+                      <input required className="w-full px-4 py-2 border rounded-xl" value={jobFormData.title} onChange={e => setJobFormData({...jobFormData, title: e.target.value})} />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Vacancies</label>
+                      <input type="number" min="1" className="w-full px-4 py-2 border rounded-xl" value={jobFormData.vacancies} onChange={e => setJobFormData({...jobFormData, vacancies: parseInt(e.target.value) || 1})} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Job Description *</label>
+                    <textarea required className="w-full px-4 py-2 border rounded-xl min-h-[100px]" value={jobFormData.description} onChange={e => setJobFormData({...jobFormData, description: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Job Description PDF {jobFormData.pdf_url && <a href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${jobFormData.pdf_url}`} target="_blank" rel="noreferrer" className="text-blue-600 text-xs ml-2 hover:underline">(View Current)</a>}</label>
+                    <input type="file" accept=".pdf" className="w-full px-4 py-2 border rounded-xl" onChange={e => { if (e.target.files && e.target.files[0]) setJobFile(e.target.files[0]) }} />
+                  </div>
+                  <div className="flex gap-4 pt-4">
+                    <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Job'}</Button>
+                    <Button type="button" variant="outline" onClick={() => { setShowJobForm(false); setJobFile(null); }}>Cancel</Button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gray-50 border-b">
+                      <th className="p-4 font-semibold text-gray-600">Title</th>
+                      <th className="p-4 font-semibold text-gray-600">Vacancies</th>
+                      <th className="p-4 font-semibold text-gray-600">Created</th>
+                      <th className="p-4 font-semibold text-gray-600">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {jobs.length === 0 ? (
+                      <tr><td colSpan={4} className="p-4 text-center text-gray-500">No jobs found.</td></tr>
+                    ) : (
+                      jobs.map((job: any) => (
+                        <tr key={job.id} className="border-b hover:bg-gray-50">
+                          <td className="p-4 font-medium">{job.title}</td>
+                          <td className="p-4">{job.vacancies}</td>
+                          <td className="p-4 text-sm text-gray-500">{new Date(job.created_at).toLocaleDateString()}</td>
+                          <td className="p-4 flex gap-2">
+                            <button onClick={() => handleEditJob(job)} className="text-blue-500 hover:text-blue-700"><Edit className="w-5 h-5" /></button>
+                            <button onClick={() => handleDeleteJob(job.id)} className="text-red-500 hover:text-red-700"><Trash2 className="w-5 h-5" /></button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>

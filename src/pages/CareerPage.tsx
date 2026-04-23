@@ -1,19 +1,36 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function CareerPage() {
   const initialFormState = {
     fullName: '',
     email: '',
-    university: '',
+    position: '',
     resumeUrl: ''
   };
   const [formData, setFormData] = useState(initialFormState);
+  const [jobs, setJobs] = useState([]);
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const res = await fetch(`${apiUrl}/api/jobs`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) setJobs(data);
+        }
+      } catch (err) {
+        console.error('Error fetching jobs:', err);
+      }
+    };
+    fetchJobs();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -76,7 +93,7 @@ export default function CareerPage() {
         body: JSON.stringify({
           fullName: formData.fullName,
           email: formData.email,
-          university: formData.university,
+          position: formData.position,
           resumeUrl: uploadResult.url
         }),
       });
@@ -170,8 +187,61 @@ export default function CareerPage() {
           </div>
         </section>
 
+        {/* Current Openings Section */}
+        <section className="py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Current Openings</h2>
+            <p className="text-base text-gray-600 max-w-2xl mx-auto">Join us in building the future. We're looking for passionate individuals to fill these roles.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {jobs.length === 0 ? (
+              <div className="col-span-full text-center py-12 bg-gray-50 rounded-[2rem] border border-gray-100">
+                <p className="text-gray-500 font-medium">No open positions at the moment. Check back later!</p>
+              </div>
+            ) : (
+              jobs.map((job: any) => (
+                <div key={job.id} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-xl font-bold text-gray-900">{job.title}</h3>
+                      <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                        {job.vacancies} {job.vacancies === 1 ? 'Vacancy' : 'Vacancies'}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-6 line-clamp-4">{job.description}</p>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-100 flex gap-3">
+                    <button 
+                      onClick={() => {
+                        setFormData({ ...formData, position: job.title });
+                        document.getElementById('application-form')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="flex-1 bg-gray-900 text-white py-3 rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors text-center"
+                    >
+                      Apply Now
+                    </button>
+                    {job.pdf_url && (
+                      <a 
+                        href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${job.pdf_url}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-12 flex items-center justify-center bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-colors border border-gray-200"
+                        title="Download JD"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">download</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
         {/* Application Form Section */}
-        <section className="py-16 max-w-3xl mx-auto">
+        <section id="application-form" className="py-16 max-w-3xl mx-auto">
           <div className="bg-white p-10 md:p-12 rounded-[2.5rem] border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-3">Apply to Simple Sphere</h2>
@@ -209,17 +279,25 @@ export default function CareerPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="university">College / University</label>
-                <input 
-                  required
-                  className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all" 
-                  id="university" 
-                  name="university" 
-                  placeholder="Name of your institution" 
-                  type="text"
-                  value={formData.university}
-                  onChange={handleChange}
-                />
+                <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="position">Applying for Position</label>
+                <div className="relative">
+                  <select 
+                    required
+                    className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all appearance-none" 
+                    id="position" 
+                    name="position" 
+                    value={formData.position}
+                    onChange={handleChange as any}
+                  >
+                    <option value="" disabled>Select a position</option>
+                    {jobs.map((job: any) => (
+                      <option key={job.id} value={job.title}>{job.title}</option>
+                    ))}
+                  </select>
+                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                    <span className="material-symbols-outlined">expand_more</span>
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-2">
