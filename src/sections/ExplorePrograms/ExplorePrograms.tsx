@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { sanityClient } from "../../lib/sanity";
 import { getCoursesQuery } from "../../lib/sanityQueries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CATEGORIES = [
   { id: "genai", name: "AI & ML", icon: GraduationCap },
@@ -228,11 +229,17 @@ export default function ExplorePrograms() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="wait">
                 {loading ? (
-                  <div className="col-span-full py-20 flex flex-col items-center justify-center">
-                    <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-                    <p className="text-slate-400 font-medium">
-                      Loading programs...
-                    </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col h-[400px]">
+                        <Skeleton className="h-44 w-full" />
+                        <div className="p-5 flex-1 flex flex-col gap-3">
+                          <Skeleton className="h-4 w-1/4" />
+                          <Skeleton className="h-6 w-3/4" />
+                          <Skeleton className="h-12 w-full mt-auto rounded-xl" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ) : coursesMap[activeTab] &&
                   coursesMap[activeTab].length > 0 ? (

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { SEO } from '@/components/SEO';
 import { sanityClient } from '@/lib/sanity';
 import { getCoursesQuery } from '@/lib/sanityQueries';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AllCoursesPage() {
   const [showFilters, setShowFilters] = useState(false);
@@ -188,9 +189,21 @@ export default function AllCoursesPage() {
           </div>
 
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20">
-              <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-              <p className="text-slate-500 font-medium font-inter">Loading courses...</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col h-[400px]">
+                  <Skeleton className="h-48 w-full rounded-none" />
+                  <div className="p-4 flex-1 flex flex-col gap-3">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-1/3 mt-2" />
+                    <div className="mt-auto flex items-center justify-between">
+                      <Skeleton className="h-6 w-16" />
+                      <Skeleton className="h-10 w-28 rounded-lg" />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : filteredCourses.length === 0 ? (
             <div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed">

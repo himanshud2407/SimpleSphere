@@ -6,6 +6,8 @@ import { PortableText } from '@portabletext/react';
 import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import { Skeleton } from '@/components/ui/skeleton';
+
 export default function BlogPostDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<any>(null);
@@ -28,10 +30,41 @@ export default function BlogPostDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-600 font-medium">Loading story...</p>
+      <div className="bg-white min-h-screen">
+        {/* Hero Skeleton */}
+        <div className="relative h-[60vh] min-h-[400px] w-full">
+          <Skeleton className="w-full h-full rounded-none" />
+          <div className="absolute bottom-0 left-0 w-full p-6 md:p-12">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <Skeleton className="h-6 w-32 rounded-full" />
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-3/4" />
+              <div className="flex gap-8">
+                <Skeleton className="h-6 w-40" />
+                <Skeleton className="h-6 w-40" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Area Skeleton */}
+        <div className="max-w-4xl mx-auto px-6 -mt-10 relative z-10">
+          <div className="bg-white rounded-[2rem] shadow-2xl p-8 md:p-16 space-y-12">
+            <Skeleton className="h-32 w-full rounded-xl" />
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-5/6" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-4/6" />
+            </div>
+            <Skeleton className="h-[400px] w-full rounded-2xl" />
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-3/4" />
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -4,6 +4,8 @@ import { sanityClient, urlFor } from '@/lib/sanity';
 import { getBlogsQuery } from '@/lib/sanityQueries';
 import { SEO } from '@/components/SEO';
 
+import { Skeleton } from '@/components/ui/skeleton';
+
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,8 +30,44 @@ export default function BlogPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-xl font-medium text-blue-700">
-        Loading Blogs...
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* Featured Post Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+          <Skeleton className="aspect-video w-full rounded-2xl" />
+          <div className="space-y-4">
+            <Skeleton className="h-6 w-32 rounded-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-3/4" />
+            <Skeleton className="h-20 w-full" />
+            <Skeleton className="h-12 w-40 rounded-lg" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2">
+            <Skeleton className="h-10 w-48 mb-8" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-gray-100 p-4 space-y-4">
+                  <Skeleton className="h-48 w-full rounded-xl" />
+                  <Skeleton className="h-6 w-24 rounded-full" />
+                  <Skeleton className="h-8 w-full" />
+                  <Skeleton className="h-12 w-full" />
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-3 w-16" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-8">
+            <Skeleton className="h-64 w-full rounded-2xl" />
+          </div>
+        </div>
       </div>
     );
   }

@@ -69,6 +69,7 @@ const MI = ({ name, className = "", fill = false }: { name: string; className?: 
 
 import { sanityClient } from '@/lib/sanity';
 import { getCourseByIdQuery } from '@/lib/sanityQueries';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function CourseDetailPage() {
   const { id } = useParams();
@@ -118,9 +119,34 @@ export default function CourseDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 min-h-screen">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-slate-500 font-medium font-inter">Loading course details...</p>
+      <div className="min-h-screen bg-white">
+        {/* Hero Skeleton */}
+        <div className="max-w-[1280px] mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8 items-center">
+          <div className="flex-1 space-y-6">
+            <Skeleton className="h-8 w-48 rounded-full" />
+            <Skeleton className="h-12 w-full max-w-xl" />
+            <Skeleton className="h-20 w-full max-w-lg" />
+            <div className="flex gap-4">
+              <Skeleton className="h-11 w-32 rounded-lg" />
+              <Skeleton className="h-11 w-32 rounded-lg" />
+            </div>
+          </div>
+          <div className="flex-1 w-full">
+            <Skeleton className="aspect-video w-full rounded-xl" />
+          </div>
+        </div>
+        
+        {/* Content Skeleton */}
+        <div className="max-w-[1280px] mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 space-y-8">
+            <Skeleton className="h-64 w-full rounded-2xl" />
+            <Skeleton className="h-96 w-full rounded-2xl" />
+          </div>
+          <div className="space-y-6">
+            <Skeleton className="h-80 w-full rounded-2xl" />
+            <Skeleton className="h-48 w-full rounded-2xl" />
+          </div>
+        </div>
       </div>
     );
   }

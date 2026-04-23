@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 import { sanityClient } from '@/lib/sanity';
 import { getCoursesQuery } from '@/lib/sanityQueries';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function TrendingCourses() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -100,7 +101,18 @@ export default function TrendingCourses() {
         {/* Course Grid for Desktop / Horizontal Scroll for Mobile */}
         <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-6 pb-6 md:pb-0 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
           {loading ? (
-            <div className="col-span-full py-20 text-center text-slate-400 font-medium">Loading trending courses...</div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col h-[380px]">
+                  <Skeleton className="h-48 w-full rounded-none" />
+                  <div className="p-6 flex-1 flex flex-col gap-3">
+                    <Skeleton className="h-4 w-1/4" />
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-10 w-full mt-auto rounded-lg" />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : courses.map((course, index) => (
             <motion.div
               key={course.id || index}

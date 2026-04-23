@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { sanityClient, urlFor } from '@/lib/sanity';
 import { getLatestBlogsQuery } from '@/lib/sanityQueries';
 
+import { Skeleton } from '@/components/ui/skeleton';
+
 export default function Blog() {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,8 +28,23 @@ export default function Blog() {
   if (loading) {
     return (
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 text-center text-slate-500">
-          Loading stories...
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-12">
+            <div className="space-y-4">
+              <Skeleton className="h-10 w-64" />
+              <Skeleton className="h-4 w-96 hidden md:block" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="space-y-4">
+                <Skeleton className="h-64 w-full rounded-2xl" />
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-2/3" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
