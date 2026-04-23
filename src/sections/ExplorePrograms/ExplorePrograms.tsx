@@ -16,6 +16,8 @@ import {
   Archive,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { sanityClient } from "../../lib/sanity";
+import { getCoursesQuery } from "../../lib/sanityQueries";
 
 const CATEGORIES = [
   { id: "genai", name: "AI & ML", icon: GraduationCap },
@@ -103,7 +105,7 @@ const ProgramCard = ({ program }: { program: any }) => {
         </div>
 
         <button
-          onClick={() => navigate("/courses")}
+          onClick={() => navigate(`/course/${program.id}`)}
           className="mt-auto w-full py-3 bg-[#2563EB] hover:bg-blue-700 text-white font-black text-sm rounded-xl transition-all shadow-md shadow-blue-200 flex items-center justify-center gap-2 group/btn"
         >
           View & Apply
@@ -122,10 +124,7 @@ export default function ExplorePrograms() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/courses`,
-        );
-        const data = await res.json();
+        const data = await sanityClient.fetch(getCoursesQuery);
         if (Array.isArray(data)) {
           const map: Record<string, any[]> = {};
           CATEGORIES.forEach((c) => (map[c.id] = []));
@@ -142,14 +141,14 @@ export default function ExplorePrograms() {
                 c.name.toLowerCase().includes(catLower),
             );
 
-            const targetId = match ? match.id : "genai";
+            const targetId = match ? match.id : "other";
             if (!map[targetId]) map[targetId] = [];
             map[targetId].push(course);
           });
           setCoursesMap(map);
         }
       } catch (err) {
-        console.error("Error fetching courses", err);
+        console.error("Error fetching courses from Sanity:", err);
       } finally {
         setLoading(false);
       }

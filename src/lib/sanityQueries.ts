@@ -36,3 +36,53 @@ export const getBlogPostBySlugQuery = `*[_type == "post" && slug.current == $slu
   "authorImage": author->image,
   "categories": categories[]->title
 }`;
+
+export const getCoursesQuery = `*[_type == "course"] | order(_createdAt desc) {
+  "id": _id,
+  title,
+  "img": coalesce(img.asset->url, img),
+  inst,
+  rating,
+  reviews,
+  price,
+  category,
+  level,
+  description,
+  about_course,
+  curriculum,
+  duration,
+  last_updated,
+  materials_included,
+  learning_objectives,
+  feature_cards,
+  original_price,
+  enrolled_count,
+  instructor_title,
+  instructor_bio,
+  "instructor_image": coalesce(instructor_image.asset->url, instructor_image)
+}`;
+
+export const getCourseByIdQuery = `*[_type == "course" && _id == $id][0] {
+  "id": _id,
+  title,
+  "img": coalesce(img.asset->url, img),
+  inst,
+  rating,
+  reviews,
+  price,
+  category,
+  level,
+  description,
+  about_course,
+  curriculum,
+  duration,
+  last_updated,
+  materials_included,
+  learning_objectives,
+  feature_cards,
+  original_price,
+  enrolled_count,
+  instructor_title,
+  instructor_bio,
+  "instructor_image": coalesce(instructor_image.asset->url, instructor_image)
+}`;

@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { SEO } from '@/components/SEO';
+import { sanityClient } from '@/lib/sanity';
+import { getCoursesQuery } from '@/lib/sanityQueries';
 
 export default function AllCoursesPage() {
   const [showFilters, setShowFilters] = useState(false);
@@ -19,13 +21,12 @@ export default function AllCoursesPage() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/courses`);
-        const data = await res.json();
+        const data = await sanityClient.fetch(getCoursesQuery);
         if (Array.isArray(data)) {
           setCourses(data);
         }
       } catch (err) {
-        console.error('API Error:', err);
+        console.error('Sanity Error:', err);
       } finally {
         setLoading(false);
       }
@@ -216,19 +217,9 @@ export default function AllCoursesPage() {
                     </p>
                     <div className="mt-auto flex items-center justify-between">
                       <span className="font-bold text-lg text-gray-900">{course.price}</span>
-                      {course.enrollmentUrl ? (
-                        <a 
-                          href={course.enrollmentUrl.startsWith('http') ? course.enrollmentUrl : `https://${course.enrollmentUrl}`} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
-                        </a>
-                      ) : (
-                        <Link to="/contact">
-                          <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
-                        </Link>
-                      )}
+                      <Link to={`/course/${course.id}`}>
+                        <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
+                      </Link>
                     </div>
                   </div>
                 </div>

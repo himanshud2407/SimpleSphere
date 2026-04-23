@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Web Development Government Certification Program | GovCert Academy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#0f0069",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "on-background": "#131b2e",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-tint": "#0053db",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e2e7ff",
+                    "on-surface": "#131b2e",
+                    "error-container": "#ffdad6",
+                    "primary": "#004ac6",
+                    "surface-container-low": "#f2f3ff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-variant": "#dae2fd",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#5e6e85",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#434655",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-surface": "#283044",
+                    "secondary-container": "#645efb",
+                    "surface-bright": "#faf8ff",
+                    "tertiary-fixed": "#d3e4fe",
+                    "on-primary-fixed": "#00174b",
+                    "inverse-on-surface": "#eef0ff",
+                    "background": "#faf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "surface-container-highest": "#dae2fd",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "secondary": "#4b41e1",
+                    "on-tertiary-container": "#e9f0ff",
+                    "secondary-fixed": "#e2dfff",
+                    "primary-fixed": "#dbe1ff",
+                    "on-primary-container": "#eeefff",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "outline": "#737686",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "tertiary": "#46566c",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary-container": "#2563eb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "lg": "2.5rem",
+                    "gutter": "1.5rem",
+                    "sm": "1rem",
+                    "xl": "4rem",
+                    "md": "1.5rem",
+                    "container-max": "1280px",
+                    "xs": "0.5rem"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-tab {
+            border-bottom: 2px solid #2563eb;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 w-full z-50 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
+<div class="max-w-[1280px] mx-auto flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tight text-slate-900">GovCert Academy</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-blue-600 border-b-2 border-blue-600 pb-5 font-inter text-sm tracking-tight transition-all duration-200 ease-in-out cursor-pointer" href="#">Browse Courses</a>
+<a class="text-slate-600 hover:text-blue-600 font-inter text-sm tracking-tight transition-all duration-200 ease-in-out cursor-pointer" href="#">My Learning</a>
+<a class="text-slate-600 hover:text-blue-600 font-inter text-sm tracking-tight transition-all duration-200 ease-in-out cursor-pointer" href="#">Certifications</a>
+<a class="text-slate-600 hover:text-blue-600 font-inter text-sm tracking-tight transition-all duration-200 ease-in-out cursor-pointer" href="#">Resources</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-600 font-inter text-sm font-semibold transition-all duration-200 ease-in-out active:scale-95">Sign In</button>
+<button class="bg-primary-container text-white px-5 py-2 rounded-lg font-inter text-sm font-semibold transition-all duration-200 ease-in-out active:scale-95 shadow-sm">Enroll Now</button>
+</div>
+</div>
+</header>
+<main class="pt-16 pb-xl">
+<!-- Hero Section -->
+<section class="bg-white border-b border-slate-200">
+<div class="max-w-[1280px] mx-auto px-6 py-lg flex flex-col lg:flex-row gap-gutter items-center">
+<div class="flex-1 space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-label-md font-label-md">Government-Certified Program</span>
+</div>
+<h1 class="text-headline-xl font-headline-xl text-on-background max-w-2xl">Web Development Government Certification Program</h1>
+<p class="text-body-lg text-on-surface-variant max-w-xl">Master modern web technologies through a curriculum vetted by federal digital standards. Prepare for a career in public sector tech and high-compliance industries.</p>
+<div class="flex items-center gap-4 pt-4">
+<button class="h-11 px-8 bg-primary-container text-white rounded-lg font-label-md transition-all hover:bg-primary active:scale-95">Enroll Now</button>
+<button class="h-11 px-6 border-2 border-primary-container text-primary-container rounded-lg font-label-md hover:bg-primary-container/5 transition-all">Download Syllabus</button>
+</div>
+</div>
+<div class="flex-1 w-full lg:w-auto">
+<div class="relative rounded-xl overflow-hidden shadow-2xl aspect-video">
+<img class="w-full h-full object-cover" data-alt="Modern clean workspace with a laptop showing lines of code, a digital tablet, and professional desktop setup in a bright office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUtSy8NCx2e0tMYJhx917sVlG2ukihPfvAdwVRnGwybn8eYFTqiVMtQrKaKn-9wo1hTXa3FpfX0ABCHnPfyaG5GgMjWszeg_xAivn2Jo6eCcdgE7JsqNwaCqTaCor1Oa8mZTz9JiNgRvB8hQBP3tZK0zkZrvRRnwbOodCbQrx6MtV_c82qmPzfe8027NVNkQuzmtNGlcu0fihmroyGD70Jndt_Ccon6GRFhilJ2i8vhYFCKvlRjLhedmUqaLeeuWw5C8N8-OO5UeRd"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Course Navigation Tabs -->
+<div class="sticky top-16 bg-white z-40 border-b border-slate-200">
+<div class="max-w-[1280px] mx-auto px-6">
+<div class="flex gap-8 h-14">
+<button class="active-tab text-label-md font-label-md px-2 flex items-center">Course Info</button>
+<button class="text-slate-500 hover:text-primary text-label-md font-label-md px-2 flex items-center transition-colors">Curriculum</button>
+<button class="text-slate-500 hover:text-primary text-label-md font-label-md px-2 flex items-center transition-colors">Instructor</button>
+<button class="text-slate-500 hover:text-primary text-label-md font-label-md px-2 flex items-center transition-colors">Reviews (1,248)</button>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-gutter mt-lg">
+<!-- Left Column: Detailed Information -->
+<div class="lg:col-span-8 space-y-xl">
+<!-- About Section -->
+<section id="about">
+<h2 class="text-headline-md font-headline-md mb-6">About the Course</h2>
+<div class="space-y-4 text-body-md text-on-surface-variant">
+<p>This comprehensive program is designed to transform aspiring developers into certified professionals ready for the rigorous demands of government and high-security enterprise environments. You will learn not only how to code, but how to build accessible, secure, and performant web applications following the latest Section 508 and WCAG standards.</p>
+<p>Throughout the course, we focus on the core pillars of modern web architecture: HTML5 semantic structure, responsive CSS design, and secure JavaScript implementation. By the end of this certification, you will have completed five capstone projects that demonstrate your ability to handle complex digital transformations.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+<div class="p-5 bg-surface-container-low rounded-xl border border-outline-variant flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+<div>
+<h4 class="font-headline-sm text-base mb-1">Cybersecurity Focus</h4>
+<p class="text-caption">Learn OWASP Top 10 vulnerabilities and how to mitigate them in federal apps.</p>
+</div>
+</div>
+<div class="p-5 bg-surface-container-low rounded-xl border border-outline-variant flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="accessibility_new">accessibility_new</span>
+<div>
+<h4 class="font-headline-sm text-base mb-1">508 Compliance</h4>
+<p class="text-caption">Master accessibility requirements for all government digital products.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Learning Objectives -->
+<section>
+<h2 class="text-headline-md font-headline-md mb-6">What Will You Learn</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[
+                            "Build fully responsive and mobile-first layouts",
+                            "Implement state management in modern JS frameworks",
+                            "Design accessible interfaces with ARIA roles",
+                            "Deploy secure cloud-based web applications",
+                            "Configure CI/CD pipelines for government clouds",
+                            "Automate testing for accessibility and security"
+                        ].map(objective =&gt; `
+                            <div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md text-on-surface">${objective}</span>
+</div>
+                        `).join('')}
+                    </div>
+</section>
+<!-- Curriculum Accordion -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-headline-md font-headline-md">Course Content</h2>
+<span class="text-caption text-on-surface-variant">12 Sections • 84 Lectures • 24h 15m total length</span>
+</div>
+<div class="space-y-4">
+<!-- Section 1 -->
+<div class="border border-outline-variant rounded-xl overflow-hidden bg-white">
+<div class="bg-slate-50 px-6 py-4 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="expand_more">expand_more</span>
+<h3 class="font-headline-sm text-base">Section 1: Foundations &amp; Accessibility Standards</h3>
+</div>
+<span class="text-caption">4 Lectures • 1h 45m</span>
+</div>
+<div class="p-0 border-t border-slate-100">
+<div class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="play_circle">play_circle</span>
+<span class="text-body-md">1. Introduction to Federal Digital Guidelines</span>
+</div>
+<span class="text-caption text-primary">Preview</span>
+</div>
+<div class="px-6 py-4 flex items-center justify-between border-t border-slate-100">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="description">description</span>
+<span class="text-body-md">2. Section 508 and WCAG 2.1 Overview</span>
+</div>
+<span class="text-caption">15:00</span>
+</div>
+</div>
+</div>
+<!-- Section 2 -->
+<div class="border border-outline-variant rounded-xl overflow-hidden bg-white">
+<div class="bg-slate-50 px-6 py-4 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="expand_more">expand_more</span>
+<h3 class="font-headline-sm text-base">Section 2: Secure Frontend Architecture</h3>
+</div>
+<span class="text-caption">8 Lectures • 3h 12m</span>
+</div>
+</div>
+<!-- Section 3 -->
+<div class="border border-outline-variant rounded-xl overflow-hidden bg-white">
+<div class="bg-slate-50 px-6 py-4 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="expand_more">expand_more</span>
+<h3 class="font-headline-sm text-base">Section 3: Database Security &amp; GSA Compliant Storage</h3>
+</div>
+<span class="text-caption">12 Lectures • 5h 20m</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Sidebar -->
+<aside class="lg:col-span-4">
+<div class="sticky top-32 space-y-gutter">
+<!-- Pricing & Quick CTA -->
+<div class="bg-white rounded-xl border border-outline-variant p-6 shadow-sm">
+<div class="mb-6">
+<div class="flex items-baseline gap-2">
+<span class="text-headline-lg font-headline-lg text-primary">$499.00</span>
+<span class="text-body-md text-on-surface-variant line-through">$899.00</span>
+</div>
+<span class="text-label-md text-error">Limited Time Government Employee Discount</span>
+</div>
+<div class="space-y-3">
+<button class="w-full h-12 bg-primary-container text-white rounded-lg font-label-md hover:bg-primary transition-all">Add to Cart</button>
+<button class="w-full h-12 border-2 border-primary-container text-primary-container rounded-lg font-label-md hover:bg-primary-container/5 transition-all">Buy Now</button>
+</div>
+<p class="text-center text-caption text-on-surface-variant mt-4">30-Day Money-Back Guarantee</p>
+</div>
+<!-- Course Metadata -->
+<div class="bg-white rounded-xl border border-outline-variant p-6 space-y-6">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="bar_chart">bar_chart</span>
+<span class="text-body-md">Level</span>
+</div>
+<span class="text-body-md font-semibold">Intermediate</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+<span class="text-body-md">Enrolled</span>
+</div>
+<span class="text-body-md font-semibold">8,421 Students</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<span class="text-body-md">Duration</span>
+</div>
+<span class="text-body-md font-semibold">24 Total Hours</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="update">update</span>
+<span class="text-body-md">Last Updated</span>
+</div>
+<span class="text-body-md font-semibold">Dec 2024</span>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<!-- Material Includes -->
+<div>
+<h4 class="font-headline-sm text-base mb-4">Material Includes</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-body-md">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="movie">movie</span>
+                                    24 hours on-demand video
+                                </li>
+<li class="flex items-center gap-3 text-body-md">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="description">description</span>
+                                    15 downloadable resources
+                                </li>
+<li class="flex items-center gap-3 text-body-md">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="assignment">assignment</span>
+                                    4 coding assignments
+                                </li>
+<li class="flex items-center gap-3 text-body-md">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="workspace_premium">workspace_premium</span>
+                                    Official Digital Certificate
+                                </li>
+</ul>
+</div>
+</div>
+<!-- Instructor Profile -->
+<div class="bg-white rounded-xl border border-outline-variant p-6">
+<h4 class="font-headline-sm text-base mb-4">Instructor</h4>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Professional male instructor with short dark hair and a confident smile, wearing a modern charcoal suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUHYAEw5g5l074hWbNnJmPwc6VspA63bG1xM0sUc1B_-RfDlK_7UebJ8HyVCZ06OQVHnovdVD1mFuALDQwkkiEiEmzRk_diWGCAjJgjX9NCXQ9Q3lzSohGcCq3mndPdkytbZ6K0--rJQzcnGmdKGDNwmwM4GmkYxo_ORUoEoJSn_twg7Cc2QY7pwb_94VWxywRYrfGShlX_HxHJLmGXyZsBAmrtaRR_0ZYLOflm6XZYaxqni1AXAtBIyzNL_7z0vQH71tPigrgklmG"/>
+</div>
+<div>
+<h5 class="text-headline-sm text-base">Dr. Michael Chen</h5>
+<p class="text-caption text-on-surface-variant">Senior Federal Architect</p>
+</div>
+</div>
+<p class="text-caption leading-relaxed">Michael has 15 years of experience building secure digital services for federal agencies. He specializes in large-scale accessibility transformations and secure backend systems.</p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="w-full border-t border-slate-200 bg-slate-50 mt-xl">
+<div class="max-w-[1280px] mx-auto py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col gap-2 items-center md:items-start">
+<span class="text-lg font-semibold text-slate-700">GovCert Academy</span>
+<p class="text-slate-500 font-inter text-xs leading-relaxed">© 2024 Government Web Development Certification Program. Official Educational Portal.</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 font-inter text-xs leading-relaxed hover:text-blue-600 underline-offset-4 hover:underline transition-opacity" href="#">Accessibility</a>
+<a class="text-slate-500 font-inter text-xs leading-relaxed hover:text-blue-600 underline-offset-4 hover:underline transition-opacity" href="#">Privacy Policy</a>
+<a class="text-slate-500 font-inter text-xs leading-relaxed hover:text-blue-600 underline-offset-4 hover:underline transition-opacity" href="#">Terms of Service</a>
+<a class="text-slate-500 font-inter text-xs leading-relaxed hover:text-blue-600 underline-offset-4 hover:underline transition-opacity" href="#">Help Center</a>
+<a class="text-slate-500 font-inter text-xs leading-relaxed hover:text-blue-600 underline-offset-4 hover:underline transition-opacity" href="#">Feedback</a>
+</nav>
+</div>
+</footer>
+</body></html>

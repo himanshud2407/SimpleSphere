@@ -13,8 +13,12 @@ export default function AdminDashboard() {
 
   // Form State
   const [showCourseForm, setShowCourseForm] = useState(false);
+  const [showContentForm, setShowContentForm] = useState(false);
   const [courseFormData, setCourseFormData] = useState({
-    title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null as string | null
+    title: '', img: '', inst: '', price: '', category: '', level: '', 
+    description: '', about_course: '', duration: '', last_updated: '', 
+    curriculum: '', materials_included: '', learning_objectives: '', feature_cards: '',
+    original_price: '', enrolled_count: '', instructor_title: '', instructor_bio: '', instructor_image: '', id: null as string | null
   });
 
   const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`;
@@ -82,15 +86,39 @@ export default function AdminDashboard() {
       const method = courseFormData.id ? 'PUT' : 'POST';
       const url = courseFormData.id ? `${API_URL}/courses/${courseFormData.id}` : `${API_URL}/courses`;
       
+      // Convert simple text formats to JSON arrays for the API
+      const payload = {
+        ...courseFormData,
+        learning_objectives: courseFormData.learning_objectives.split('\n').map(s => s.trim()).filter(Boolean),
+        materials_included: courseFormData.materials_included.split('\n').map(line => {
+          const [icon, label] = line.split('|').map(s => s.trim());
+          return icon && label ? { icon, label } : null;
+        }).filter(Boolean),
+        feature_cards: courseFormData.feature_cards.split('\n').map(line => {
+          const [icon, title, description] = line.split('|').map(s => s.trim());
+          return icon && title ? { icon, title, description: description || '' } : null;
+        }).filter(Boolean),
+        curriculum: courseFormData.curriculum.split('\n').map(line => {
+          const [title, lectures, duration] = line.split('|').map(s => s.trim());
+          return title ? { title, lectures: lectures || '0', duration: duration || '0h', items: [] } : null;
+        }).filter(Boolean)
+      };
+
       const res = await fetch(url, {
         method,
         headers: getHeaders(),
-        body: JSON.stringify(courseFormData)
+        body: JSON.stringify(payload)
       });
       
       if (res.ok) {
         setShowCourseForm(false);
-        setCourseFormData({ title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null });
+        setShowContentForm(false);
+        setCourseFormData({ 
+          title: '', img: '', inst: '', price: '', category: '', level: '', 
+          description: '', about_course: '', duration: '', last_updated: '', 
+          curriculum: '', materials_included: '', learning_objectives: '', feature_cards: '',
+          original_price: '', enrolled_count: '', instructor_title: '', instructor_bio: '', instructor_image: '', id: null 
+        });
         fetchCourses();
       }
     } catch (err) {
@@ -168,10 +196,29 @@ export default function AdminDashboard() {
       price: course.price || '',
       category: course.category || '',
       level: course.level || '',
-      enrollmentUrl: course.enrollmentUrl || course.enrollmenturl || '',
+      description: course.description || '',
+      about_course: course.about_course || '',
+      duration: course.duration || '',
+      last_updated: course.last_updated || '',
+      curriculum: Array.isArray(course.curriculum) ? course.curriculum.map((c: any) => `${c.title} | ${c.lectures} | ${c.duration}`).join('\n') : '',
+      materials_included: Array.isArray(course.materials_included) ? course.materials_included.map((m: any) => `${m.icon} | ${m.label}`).join('\n') : '',
+      learning_objectives: Array.isArray(course.learning_objectives) ? course.learning_objectives.join('\n') : '',
+      feature_cards: Array.isArray(course.feature_cards) ? course.feature_cards.map((f: any) => `${f.icon} | ${f.title} | ${f.description}`).join('\n') : '',
+      original_price: course.original_price || '',
+      enrolled_count: course.enrolled_count || '',
+      instructor_title: course.instructor_title || '',
+      instructor_bio: course.instructor_bio || '',
+      instructor_image: course.instructor_image || '',
       id: course.id
     });
     setShowCourseForm(true);
+    setShowContentForm(false);
+  };
+
+  const handleEditContent = (course: any) => {
+    handleEditCourse(course);
+    setShowContentForm(true);
+    setShowCourseForm(false);
   };
 
   return (
@@ -231,85 +278,44 @@ export default function AdminDashboard() {
         
         {/* COURSES TAB */}
         {activeTab === 'courses' && (
-          <div>
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">Manage Courses</h1>
-              <Button onClick={() => { setShowCourseForm(true); setCourseFormData({ title: '', img: '', inst: '', price: '', category: '', level: '', enrollmentUrl: '', id: null }); }} className="bg-blue-700 hover:bg-blue-800 flex items-center gap-2">
-                <Plus className="w-4 h-4" /> Add Course
-              </Button>
-            </div>
-
-            {showCourseForm ? (
-              <div className="bg-white p-6 rounded-2xl shadow-sm border mb-8">
-                <h3 className="text-xl font-bold mb-4">{courseFormData.id ? 'Edit Course' : 'Add New Course'}</h3>
-                <form onSubmit={handleSaveCourse} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input required placeholder="Course Title" className="border p-3 rounded-lg" value={courseFormData.title} onChange={e => setCourseFormData({...courseFormData, title: e.target.value})} />
-                  <input placeholder="Image URL" className="border p-3 rounded-lg" value={courseFormData.img} onChange={e => setCourseFormData({...courseFormData, img: e.target.value})} />
-                  <input required placeholder="Instructor" className="border p-3 rounded-lg" value={courseFormData.inst} onChange={e => setCourseFormData({...courseFormData, inst: e.target.value})} />
-                  <input required placeholder="Price" className="border p-3 rounded-lg" value={courseFormData.price} onChange={e => setCourseFormData({...courseFormData, price: e.target.value})} />
-                  <input placeholder="Enrollment URL (e.g. Google Form/Payment Link)" className="border p-3 rounded-lg md:col-span-2" value={courseFormData.enrollmentUrl} onChange={e => setCourseFormData({...courseFormData, enrollmentUrl: e.target.value})} />
-                  <select 
-                    required 
-                    className="border p-3 rounded-lg bg-white" 
-                    value={courseFormData.category} 
-                    onChange={e => setCourseFormData({...courseFormData, category: e.target.value})}
-                  >
-                    <option value="" disabled>Select Category</option>
-                    <option value="genai">GenAI</option>
-                    <option value="software">Software Engineering</option>
-                    <option value="data">Data Science</option>
-                    <option value="cyber">Cybersecurity</option>
-                    <option value="cloud">Cloud Computing</option>
-                    <option value="marketing">Digital Marketing</option>
-                    <option value="gniit">GNIIT</option>
-                    <option value="finance">Banking & Finance</option>
-                    <option value="certification">Industry Certification</option>
-                  </select>
-                  <select 
-                    required 
-                    className="border p-3 rounded-lg bg-white" 
-                    value={courseFormData.level} 
-                    onChange={e => setCourseFormData({...courseFormData, level: e.target.value})}
-                  >
-                    <option value="" disabled>Select Level</option>
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                  </select>
-                  <div className="md:col-span-2 flex gap-4">
-                    <Button type="submit" disabled={loading} className="bg-blue-700">{loading ? 'Saving...' : 'Save Course'}</Button>
-                    <Button type="button" variant="outline" onClick={() => setShowCourseForm(false)}>Cancel</Button>
-                  </div>
-                </form>
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center max-w-2xl mx-auto">
+            <div className="bg-blue-50 p-8 rounded-[2.5rem] mb-8">
+              <BookOpen className="w-16 h-16 text-blue-600 mx-auto mb-6" />
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">Manage Your Courses</h1>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                You have successfully migrated to **Sanity CMS**. To add, edit, or delete courses, 
+                please use the professional Sanity Studio interface. This ensures your content 
+                stays organized and looks premium across the platform.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a 
+                  href="http://localhost:3333" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+                >
+                  <Plus className="w-5 h-5" /> Open Sanity Studio
+                </a>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setActiveTab('leads')}
+                  className="px-8 py-3 rounded-xl border-gray-200"
+                >
+                  View Recent Leads
+                </Button>
               </div>
-            ) : null}
-
-            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-gray-50 border-b">
-                    <th className="p-4 font-semibold text-gray-600">Title</th>
-                    <th className="p-4 font-semibold text-gray-600">Instructor</th>
-                    <th className="p-4 font-semibold text-gray-600">Price</th>
-                    <th className="p-4 font-semibold text-gray-600">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {courses.length === 0 ? (
-                    <tr><td colSpan={4} className="p-4 text-center text-gray-500">No courses found. Connect backend & Supabase to view courses.</td></tr>
-                  ) : courses.map((course: any) => (
-                    <tr key={course.id} className="border-b hover:bg-gray-50">
-                      <td className="p-4">{course.title}</td>
-                      <td className="p-4">{course.inst}</td>
-                      <td className="p-4">{course.price}</td>
-                      <td className="p-4 flex gap-2">
-                        <button onClick={() => handleEditCourse(course)} className="text-blue-600 hover:text-blue-800"><Edit className="w-5 h-5"/></button>
-                        <button onClick={() => handleDeleteCourse(course.id)} className="text-red-500 hover:text-red-700"><Trash2 className="w-5 h-5"/></button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left w-full">
+              <div className="p-6 bg-white border rounded-2xl">
+                <h3 className="font-bold text-gray-900 mb-2">Why Sanity?</h3>
+                <p className="text-sm text-gray-500">Structured content, real-time collaboration, and a premium editing experience for your curriculum.</p>
+              </div>
+              <div className="p-6 bg-white border rounded-2xl">
+                <h3 className="font-bold text-gray-900 mb-2">Local Development</h3>
+                <p className="text-sm text-gray-500">Run <code className="bg-gray-100 px-1 rounded">npm run dev</code> inside the <code className="bg-gray-100 px-1 rounded">/simplesphere</code> directory to start the studio.</p>
+              </div>
             </div>
           </div>
         )}

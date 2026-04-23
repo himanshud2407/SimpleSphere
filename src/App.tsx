@@ -18,6 +18,7 @@ import BlogPostDetail from '@/pages/BlogPostDetail';
 import BecomeInstructor from '@/pages/BecomeInstructor';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsAndConditions from '@/pages/TermsAndConditions';
+import CourseDetailPage from '@/pages/CourseDetailPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -48,6 +49,7 @@ function AnimatedRoutes() {
           <Route path="/become-instructor" element={<BecomeInstructor />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/course/:id" element={<CourseDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 
             path="/admin" 

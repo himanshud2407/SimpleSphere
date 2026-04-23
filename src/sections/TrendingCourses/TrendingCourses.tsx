@@ -5,6 +5,9 @@ import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
+import { sanityClient } from '@/lib/sanity';
+import { getCoursesQuery } from '@/lib/sanityQueries';
+
 export default function TrendingCourses() {
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -12,13 +15,12 @@ export default function TrendingCourses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/courses`);
-        const data = await res.json();
+        const data = await sanityClient.fetch(getCoursesQuery);
         if (Array.isArray(data) && data.length > 0) {
           setCourses(data.slice(0, 4)); // Show top 4 trending
         }
       } catch (err) {
-        console.error('Error fetching trending courses', err);
+        console.error('Error fetching trending courses from Sanity', err);
       } finally {
         setLoading(false);
       }
@@ -133,7 +135,7 @@ export default function TrendingCourses() {
                       <ButtonWithIconDemo text="Enroll Now" />
                     </a>
                   ) : (
-                    <Link to="/courses">
+                    <Link to={`/course/${course.id}`}>
                       <ButtonWithIconDemo text="Enroll Now" />
                     </Link>
                   )}

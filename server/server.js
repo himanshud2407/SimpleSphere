@@ -65,8 +65,15 @@ app.get('/api/courses', async (req, res) => {
   res.json(data);
 });
 
+app.get('/api/courses/:id', async (req, res) => {
+  const { id } = req.params;
+  const { data, error } = await supabase.from('courses').select('*').eq('id', id).single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
 app.post('/api/courses', authenticateToken, async (req, res) => {
-  const { title, img, inst, rating, reviews, price, category, level, enrollmentUrl } = req.body;
+  const { title, img, inst, rating, reviews, price, category, level, description, about_course, curriculum, duration, last_updated, materials_included, learning_objectives, feature_cards, original_price, enrolled_count, instructor_title, instructor_bio, instructor_image } = req.body;
   
   const courseData = {
     title, 
@@ -77,14 +84,26 @@ app.post('/api/courses', authenticateToken, async (req, res) => {
     price, 
     category, 
     level,
-    enrollmentUrl: enrollmentUrl || ""
+    description: description || "",
+    about_course: about_course || "",
+    curriculum: curriculum || [],
+    duration: duration || "",
+    last_updated: last_updated || "",
+    materials_included: materials_included || [],
+    learning_objectives: learning_objectives || [],
+    feature_cards: feature_cards || [],
+    original_price: original_price || "",
+    enrolled_count: enrolled_count || "",
+    instructor_title: instructor_title || "",
+    instructor_bio: instructor_bio || "",
+    instructor_image: instructor_image || ""
   };
 
   const { data, error } = await supabase.from('courses').insert([courseData]).select();
   if (error) {
     console.error('Supabase Insert Error:', error);
     if (error.code === 'PGRST204') {
-      return res.status(400).json({ error: "Missing 'enrollmentUrl' column in Supabase. Run the SQL fix in your Supabase editor." });
+      return res.status(400).json({ error: `Schema Mismatch: ${error.message}. Please run the SQL script in your Supabase editor and then run 'NOTIFY pgrst, "reload schema";' to refresh the cache.` });
     }
     return res.status(500).json({ error: error.message });
   }
@@ -93,10 +112,10 @@ app.post('/api/courses', authenticateToken, async (req, res) => {
 
 app.put('/api/courses/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { title, img, inst, rating, reviews, price, category, level, enrollmentUrl } = req.body;
+  const { title, img, inst, rating, reviews, price, category, level, description, about_course, curriculum, duration, last_updated, materials_included, learning_objectives, feature_cards, original_price, enrolled_count, instructor_title, instructor_bio, instructor_image } = req.body;
   
   const { data, error } = await supabase.from('courses').update({
-    title, img, inst, rating, reviews, price, category, level, enrollmentUrl
+    title, img, inst, rating, reviews, price, category, level, description, about_course, curriculum, duration, last_updated, materials_included, learning_objectives, feature_cards, original_price, enrolled_count, instructor_title, instructor_bio, instructor_image
   }).eq('id', id).select();
   
   if (error) {

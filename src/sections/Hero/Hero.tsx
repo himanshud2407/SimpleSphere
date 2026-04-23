@@ -59,17 +59,16 @@ export default function Hero() {
             </motion.div>
 
             {/* Main Headline */}
-            <h1 className="text-[2.2rem] sm:text-5xl lg:text-[4.2rem] font-bold text-slate-900 leading-[1.1] tracking-tight mb-4 md:mb-6">
-              <span className="md:hidden">Learn Skills &<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500">Earn Your Certificate.</span></span>
-              <span className="hidden md:block">Learn <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-500">Skills</span> &<br className="hidden lg:block" /> Earn Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">Certificate.</span></span>
+            <h1 className="text-[1.8rem] sm:text-3xl lg:text-[2.8rem] font-extrabold text-slate-900 leading-[1.2] tracking-tight mb-4 md:mb-6">
+              Master <span className="text-blue-600">GenAI</span>, <span className="text-blue-600">Cybersecurity</span> & <span className="text-blue-600">Web3</span><br className="hidden lg:block" /> with a <span className="text-blue-600">Smarter, Faster</span> Learning System
             </h1>
             
             {/* Subtitle */}
-            <p className="hidden md:block text-xl text-slate-600 max-w-2xl font-medium leading-relaxed mb-10">
-              Master GenAI, Cybersecurity & Web3 with an Efficient Learning System.
+            <p className="hidden md:block text-lg text-slate-600 max-w-2xl font-medium leading-relaxed mb-10">
+              Join India's premier learning ecosystem and gain industry-vetted skills with high-value certifications.
             </p>
-            <p className="md:hidden text-[15px] text-slate-500 font-medium leading-relaxed mb-5">
-              Master GenAI, Cybersecurity & Web3 with an Efficient Learning System.
+            <p className="md:hidden text-[14px] text-slate-500 font-medium leading-relaxed mb-5">
+              Join India's premier learning ecosystem and gain industry-vetted skills.
             </p>
 
             {/* Trust Badge - Mobile Only */}
