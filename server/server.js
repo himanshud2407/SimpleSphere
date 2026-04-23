@@ -206,6 +206,49 @@ app.patch('/api/instructors/:id', authenticateToken, async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true });
 });
+// ------------- CAREERS API (Supabase) -------------
+app.post('/api/careers', async (req, res) => {
+  const { fullName, email, university, resumeUrl } = req.body;
+  
+  if (!fullName || !email) {
+    return res.status(400).json({ error: 'Full name and email are required.' });
+  }
+
+  const { data, error } = await supabase.from('careers').insert([{ 
+    fullName, 
+    email, 
+    university,
+    resumeUrl,
+    status: 'pending'
+  }]).select();
+  
+  if (error) {
+    console.error('Career application error:', error);
+    return res.status(500).json({ error: error.message });
+  }
+  res.json({ success: true, message: 'Application submitted successfully', data });
+});
+
+app.get('/api/careers', authenticateToken, async (req, res) => {
+  const { data, error } = await supabase.from('careers').select('*').order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+app.delete('/api/careers/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { error } = await supabase.from('careers').delete().eq('id', id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
+app.patch('/api/careers/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const { error } = await supabase.from('careers').update({ status }).eq('id', id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

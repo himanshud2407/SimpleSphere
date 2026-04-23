@@ -16,6 +16,7 @@ export default function Header() {
     { label: 'All Courses', href: '/courses' },
     { label: 'Blogs', href: '/blog' },
     { label: 'Our Center', href: '/Our-center' },
+    { label: 'Careers', href: '/career' },
     { label: 'Contact Us', href: '/contact' },
     { label: 'Become an Instructor', href: '/become-instructor' },
   ];
@@ -38,17 +39,19 @@ export default function Header() {
     )}>
       <div
         className={cn(
-          "mx-auto transition-all duration-300 ease-in-out px-4 sm:px-6 lg:px-8",
+          "mx-auto transition-all duration-300 ease-in-out px-0 sm:px-6 lg:px-8",
           scrolled && !open
-            ? "max-w-7xl"
-            : "max-w-screen-2xl"
+            ? "max-w-[1440px] px-4"
+            : open ? "max-w-full px-0" : "max-w-screen-2xl px-4"
         )}
       >
         <div className={cn(
-          "flex justify-between items-center transition-all duration-300 px-4 sm:px-6 rounded-2xl border",
+          "flex justify-between items-center transition-all duration-300 px-4 sm:px-6 border",
           scrolled && !open
-            ? "bg-white/90 backdrop-blur-xl border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-16 md:h-18"
-            : "bg-slate-50 border-transparent h-20 md:h-24"
+            ? "bg-white/90 backdrop-blur-xl border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-16 md:h-18 rounded-2xl"
+            : open 
+              ? "bg-white border-transparent h-20 md:h-24 rounded-none" 
+              : "bg-slate-50/50 backdrop-blur-md border-transparent h-20 md:h-24 rounded-2xl"
         )}>
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
@@ -60,7 +63,7 @@ export default function Header() {
           </Link>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden lg:flex items-center gap-1 md:gap-2">
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.href || (location.pathname === '/' && link.href === '/');
               return (
@@ -68,7 +71,7 @@ export default function Header() {
                   key={link.label}
                   to={link.href}
                   className={cn(
-                    "relative px-4 py-2 text-sm md:text-base font-semibold transition-all duration-300 rounded-lg group whitespace-nowrap",
+                    "relative px-2 xl:px-4 py-2 text-sm xl:text-base font-semibold transition-all duration-300 rounded-lg group whitespace-nowrap",
                     isActive ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
                   )}
                 >
@@ -160,7 +163,7 @@ export default function Header() {
               <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,10,50,0.015)_1px,transparent_1px)] bg-[size:32px_32px]" />
             </div>
 
-            <div className="flex flex-col h-full pt-28 pb-10 px-6 relative z-10 shrink-0">
+            <div className="flex flex-col h-full pt-28 pb-10 px-6 relative z-10 shrink-0 overflow-y-auto">
               <nav className="flex flex-col gap-3">
                 {navLinks.map((link, idx) => {
                   const isActive = location.pathname === link.href || (location.pathname === '/' && link.href === '/');

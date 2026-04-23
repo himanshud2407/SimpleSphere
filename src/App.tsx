@@ -19,6 +19,7 @@ import BecomeInstructor from '@/pages/BecomeInstructor';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsAndConditions from '@/pages/TermsAndConditions';
 import CourseDetailPage from '@/pages/CourseDetailPage';
+import CareerPage from '@/pages/CareerPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -49,6 +50,7 @@ function AnimatedRoutes() {
           <Route path="/become-instructor" element={<BecomeInstructor />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/career" element={<CareerPage />} />
           <Route path="/course/:id" element={<CourseDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 
@@ -68,7 +70,8 @@ function AnimatedRoutes() {
 
 function Layout() {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/login' || location.pathname.startsWith('/admin');
+  const isLoginPage = location.pathname === '/login';
+  const isAuthPage = isLoginPage || location.pathname.startsWith('/admin');
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900 flex flex-col">
@@ -78,7 +81,7 @@ function Layout() {
         <main className="flex-1 flex flex-col">
           <AnimatedRoutes />
         </main>
-        {!isAuthPage && <Footer />}
+        {!isLoginPage && <Footer />}
       </div>
     </div>
   );

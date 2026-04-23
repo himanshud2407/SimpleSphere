@@ -50,3 +50,14 @@ CREATE TABLE IF NOT EXISTS instructors (
   status text DEFAULT 'pending', -- 'pending' or 'done'
   created_at timestamp with time zone DEFAULT now()
 );
+
+-- 4. CAREERS TABLE (Job Applications)
+CREATE TABLE IF NOT EXISTS careers (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  fullName text NOT NULL,
+  email text NOT NULL,
+  university text,
+  resumeUrl text,
+  status text DEFAULT 'pending', -- 'pending' or 'done'
+  created_at timestamp with time zone DEFAULT now()
+);

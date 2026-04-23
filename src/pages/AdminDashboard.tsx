@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [courses, setCourses] = useState([]);
   const [leads, setLeads] = useState([]);
   const [instructors, setInstructors] = useState([]);
+  const [careers, setCareers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Form State
@@ -27,6 +28,7 @@ export default function AdminDashboard() {
     fetchCourses();
     fetchLeads();
     fetchInstructors();
+    fetchCareers();
   }, []);
 
   const getHeaders = () => ({
@@ -70,12 +72,21 @@ export default function AdminDashboard() {
 
   const fetchInstructors = async () => {
     try {
-      console.log(`Fetching instructors from: ${API_URL}/instructors`);
       const res = await fetch(`${API_URL}/instructors`, { headers: getHeaders() });
       const data = await handleResponse(res);
       if (data && Array.isArray(data)) setInstructors(data);
     } catch (err) {
       console.error('Error fetching instructors:', err);
+    }
+  };
+
+  const fetchCareers = async () => {
+    try {
+      const res = await fetch(`${API_URL}/careers`, { headers: getHeaders() });
+      const data = await handleResponse(res);
+      if (data && Array.isArray(data)) setCareers(data);
+    } catch (err) {
+      console.error('Error fetching careers:', err);
     }
   };
 
@@ -175,6 +186,30 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteCareer = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this career application?')) return;
+    try {
+      await fetch(`${API_URL}/careers/${id}`, { method: 'DELETE', headers: getHeaders() });
+      fetchCareers();
+    } catch (err) {
+      console.error('Error deleting career:', err);
+    }
+  };
+
+  const handleMarkCareerDone = async (id: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'done' ? 'pending' : 'done';
+      await fetch(`${API_URL}/careers/${id}`, { 
+        method: 'PATCH', 
+        headers: getHeaders(),
+        body: JSON.stringify({ status: newStatus })
+      });
+      fetchCareers();
+    } catch (err) {
+      console.error('Error updating career status:', err);
+    }
+  };
+
   const handleDeleteCourse = async (id: string) => {
     if (!confirm('Are you sure you want to delete this course?')) return;
     try {
@@ -222,9 +257,9 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex bg-gray-50 min-h-screen">
+    <div className="flex flex-col lg:flex-row bg-gray-50 min-h-screen">
       {/* Sidebar */}
-      <div className="w-64 bg-white border-r min-h-screen p-6 shadow-sm flex flex-col">
+      <div className="w-full lg:w-64 bg-white border-r border-b lg:border-b-0 lg:min-h-screen p-6 shadow-sm flex flex-col">
         <h2 className="text-2xl font-bold text-blue-700 mb-2">Admin Panel</h2>
         <p className="text-xs text-gray-500 mb-8 px-1">Logged in as {user?.email}</p>
         
@@ -255,6 +290,14 @@ export default function AdminDashboard() {
           </li>
           <li>
             <button 
+              onClick={() => setActiveTab('careers')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'careers' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              <MessageSquare className="w-5 h-5" /> Applications
+            </button>
+          </li>
+          <li>
+            <button 
               onClick={() => setActiveTab('settings')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === 'settings' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
             >
@@ -274,7 +317,7 @@ export default function AdminDashboard() {
 
 
       {/* Main Content */}
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-4 lg:p-8">
         
         {/* COURSES TAB */}
         {activeTab === 'courses' && (
@@ -409,6 +452,59 @@ export default function AdminDashboard() {
                           <CheckCircle className="w-5 h-5"/>
                         </button>
                         <button onClick={() => handleDeleteInstructor(inst.id)} className="text-red-500 hover:text-red-700" title="Delete Application">
+                          <Trash2 className="w-5 h-5"/>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* CAREERS TAB */}
+        {activeTab === 'careers' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold text-gray-900">Job Applications</h1>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 border-b">
+                    <th className="p-4 font-semibold text-gray-600">Candidate</th>
+                    <th className="p-4 font-semibold text-gray-600">Email</th>
+                    <th className="p-4 font-semibold text-gray-600">Institution</th>
+                    <th className="p-4 font-semibold text-gray-600">Resume/Link</th>
+                    <th className="p-4 font-semibold text-gray-600">Date</th>
+                    <th className="p-4 font-semibold text-gray-600">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {careers.length === 0 ? (
+                    <tr><td colSpan={6} className="p-4 text-center text-gray-500">No applications found yet.</td></tr>
+                  ) : careers.map((app: any) => (
+                    <tr key={app.id} className={`border-b hover:bg-gray-50 ${app.status === 'done' ? 'opacity-50' : ''}`}>
+                      <td className="p-4 font-medium">{app.fullName || app.fullname}</td>
+                      <td className="p-4">{app.email}</td>
+                      <td className="p-4 text-gray-500 text-sm">{app.university || 'N/A'}</td>
+                      <td className="p-4">
+                        <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline flex items-center gap-1 text-sm">
+                          View Resume
+                        </a>
+                      </td>
+                      <td className="p-4 text-gray-400 text-sm">{app.created_at ? new Date(app.created_at).toLocaleDateString() : 'N/A'}</td>
+                      <td className="p-4 flex gap-2">
+                        <button 
+                          onClick={() => handleMarkCareerDone(app.id, app.status)} 
+                          className={`${app.status === 'done' ? 'text-green-600' : 'text-gray-400'} hover:text-green-700`}
+                          title={app.status === 'done' ? 'Mark as Pending' : 'Mark as Done'}
+                        >
+                          <CheckCircle className="w-5 h-5"/>
+                        </button>
+                        <button onClick={() => handleDeleteCareer(app.id)} className="text-red-500 hover:text-red-700" title="Delete Application">
                           <Trash2 className="w-5 h-5"/>
                         </button>
                       </td>
