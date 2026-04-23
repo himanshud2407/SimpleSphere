@@ -120,7 +120,7 @@ export default function CareerPage() {
     <>
       <main className="max-w-[1280px] mx-auto px-6 pt-10 pb-16 md:py-16">
         {/* Hero Section */}
-        <section className="pt-4 pb-16 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        {/* <section className="pt-4 pb-16 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         <div className="space-y-6">
         <span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold tracking-wider uppercase">Join Our Team</span>
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">Build the Future of Enterprise</h1>
@@ -152,10 +152,10 @@ export default function CareerPage() {
           <img className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700" alt="Team Collaboration" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"/>
           <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent"></div>
         </div>
-        </section>
+        </section> */}
 
         {/* Bento Section: Why Join Us */}
-        <section className="py-16">
+        {/* <section className="py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2 bg-white p-10 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <h3 className="text-2xl font-bold mb-4 text-gray-900">Engineering Excellence</h3>
@@ -185,7 +185,7 @@ export default function CareerPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Current Openings Section */}
         <section className="py-16">

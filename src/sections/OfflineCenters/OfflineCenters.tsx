@@ -18,7 +18,7 @@ export default function OfflineCenters() {
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-8 py-10 text-center">
         <h2 className="font-bold text-5xl md:text-6xl text-gray-900 tracking-tighter mb-6">
-          Find a Center Near You
+          Our Offline Centers
         </h2>
         <p className="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
           Experience high-quality education in person. Our architectural
@@ -88,9 +88,9 @@ export default function OfflineCenters() {
                   <Clock className="w-3 h-3" /> 9AM - 8PM
                 </span>
               </div>
-              <button className="w-full py-3 rounded-md bg-gray-100 text-blue-900 font-bold text-sm hover:bg-blue-700 hover:text-white transition-all duration-300">
+              {/* <button className="w-full py-3 rounded-md bg-gray-100 text-blue-900 font-bold text-sm hover:bg-blue-700 hover:text-white transition-all duration-300">
                 View Details
-              </button>
+              </button> */}
             </div>
 
             {/* Location Card 2: Austin (Selected) */}
@@ -119,9 +119,9 @@ export default function OfflineCenters() {
                   <Clock className="w-3 h-3" /> 9AM - 8PM
                 </span>
               </div>
-              <button className="w-full py-3 rounded-md bg-blue-700 text-white font-bold text-sm shadow-md hover:bg-blue-800 transition-all">
+              {/* <button className="w-full py-3 rounded-md bg-blue-700 text-white font-bold text-sm shadow-md hover:bg-blue-800 transition-all">
                 View Details
-              </button>
+              </button> */}
             </div>
 
             {/* Location Card 3: San Francisco */}
@@ -142,9 +142,9 @@ export default function OfflineCenters() {
                   <Clock className="w-3 h-3" /> 10AM - 6PM
                 </span>
               </div>
-              <button className="w-full py-3 rounded-md bg-gray-100 text-blue-900 font-bold text-sm hover:bg-blue-700 hover:text-white transition-all duration-300">
+              {/* <button className="w-full py-3 rounded-md bg-gray-100 text-blue-900 font-bold text-sm hover:bg-blue-700 hover:text-white transition-all duration-300">
                 View Details
-              </button>
+              </button> */}
             </div>
           </div>
         </aside>

@@ -56,59 +56,7 @@ export default function BecomeInstructor() {
       />
       <main className="flex-grow pb-10 md:pb-0">
         {/* Hero Section */}
-        <section className="relative min-h-[auto] md:min-h-[870px] flex items-center overflow-hidden px-6 py-10 md:py-0">
-          <div className="max-w-7xl mx-auto md:px-8 w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
-            {/* Mobile Image (shows on small screens) */}
-            <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden mb-8 md:hidden editorial-shadow">
-              <img
-                alt="Instructor"
-                className="w-full h-full object-cover"
-                src="/pavan-shimpi.png"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent"></div>
-              <div className="absolute bottom-6 left-6 right-6 text-left">
-                <span className="inline-block px-3 py-1 bg-primary-container text-on-primary-container text-[10px] font-bold uppercase tracking-widest rounded-full mb-3">
-                  Join the Faculty
-                </span>
-                <h1 className="text-3xl font-extrabold text-white leading-tight tracking-tight mb-2">
-                  Empower the Next Generation of Tech Leaders
-                </h1>
-              </div>
-            </div>
-
-            <div className="z-10 md:py-12 flex flex-col md:block items-center text-center md:text-left">
-              <h1 className="hidden md:block font-headline text-6xl md:text-7xl font-extrabold text-on-surface leading-[1.05] tracking-tighter mb-6">
-                Empower the Next Generation of{" "}
-                <span className="text-primary-stitch">Tech Leaders</span>
-              </h1>
-              <p className="text-on-surface-variant md:text-xl md:text-on-secondary-container text-lg leading-relaxed mb-8 md:mb-10 max-w-lg px-2 md:px-0">
-                Join an elite community of educators and industry experts. Share
-                your expertise, build your personal brand, and impact thousands
-                of ambitious learners worldwide.
-              </p>
-              <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                <button className="signature-gradient text-white px-8 py-4 rounded-3xl md:rounded-xl font-headline font-bold text-lg hover:shadow-lg transition-all active:scale-95 w-full md:w-auto editorial-shadow md:shadow-none">
-                  Apply to Teach
-                </button>
-                <button className="hidden md:block text-primary-stitch font-headline font-bold text-lg px-8 py-4 rounded-xl hover:bg-surface-container-low transition-all">
-                  View Instructor Guide
-                </button>
-              </div>
-            </div>
-
-            {/* Desktop Image (shows on large screens) */}
-            <div className="relative hidden md:block">
-              <div className="absolute -top-20 -right-20 w-96 h-96 bg-surface-container-highest rounded-full blur-3xl opacity-50"></div>
-              <div className="relative z-10 rounded-3xl overflow-hidden editorial-shadow transform ">
-                <img
-                  alt="Professional instructor in a modern workspace"
-                  className="w-full aspect-[4/5] object-cover"
-                  src="/pavan-shimpi.png"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        
 
         {/* Why Teach Section */}
         <section className="bg-surface-container-low md:bg-surface py-16 md:py-24 px-6 md:px-0">
@@ -327,68 +275,7 @@ export default function BecomeInstructor() {
         </section>
 
         {/* Voices of Influence Section */}
-        <section className="bg-surface-container md:bg-surface py-16 md:py-24 px-6 md:px-0">
-          <div className="md:hidden mb-10 text-center">
-            <h2 className="text-2xl font-extrabold text-on-surface tracking-tight font-headline">
-              Voices of Influence
-            </h2>
-          </div>
-
-          <div className="max-w-5xl mx-auto md:px-8">
-            {/* Desktop Layout */}
-            <div className="hidden md:grid grid-cols-5 items-center bg-surface-container-lowest rounded-[3rem] editorial-shadow overflow-hidden">
-              <div className="col-span-2">
-                <img
-                  alt="David Chen, Senior Instructor"
-                  className="w-full h-full object-cover"
-                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                />
-              </div>
-              <div className="col-span-3 p-12 lg:p-20">
-                <Quote className="w-12 h-12 md:w-16 md:h-16 text-primary-stitch mb-8 rotate-180" />
-                <blockquote className="text-3xl font-headline font-bold leading-tight text-on-surface mb-8">
-                  "Teaching on SimpleSphere has been a transformative
-                  experience. I can reach more students in a day than I could in
-                  a year at a traditional university."
-                </blockquote>
-                <div className="font-headline">
-                  <cite className="not-italic block text-xl font-extrabold text-on-surface">
-                    Rohan Verma
-                  </cite>
-                  <span className="text-on-secondary-container">
-                    AI Engineer at Arya.ai
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Layout */}
-            <div className="md:hidden bg-surface-container-lowest p-8 rounded-3xl editorial-shadow relative">
-              <Quote className="w-12 h-12 text-primary-stitch/20 absolute top-4 right-4 rotate-180" />
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-primary-container/20">
-                  <img
-                    alt="Instructor"
-                    src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  />
-                </div>
-                <div>
-                  <p className="font-bold text-on-surface font-headline">
-                    Rohan Verma
-                  </p>
-                  <p className="text-xs text-on-secondary-container">
-                    AI Engineer at Arya.ai
-                  </p>
-                </div>
-              </div>
-              <p className="text-on-surface italic leading-relaxed text-lg">
-                "Teaching on SimpleSphere has been the most rewarding pivot of
-                my career. I've not only shared my knowledge but learned so much
-                from my students' perspectives across the globe."
-              </p>
-            </div>
-          </div>
-        </section>
+       
 
         {/* Final CTA/Form */}
         <section className="py-20 md:py-24 md:bg-surface-container-low px-6 md:px-0">

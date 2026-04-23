@@ -51,7 +51,7 @@ export default function Certification() {
             className="flex-1 w-full max-w-xl lg:max-w-none mx-auto relative group"
           >
              <div className="absolute -inset-4 bg-blue-500/10 blur-3xl rounded-full z-0 pointer-events-none group-hover:bg-blue-500/20 transition-all duration-700"></div>
-             <img src="/deom-certifiacate.png" alt="Demo Certificate" className="w-full h-auto rounded-[2rem] shadow-2xl relative z-10 border-4 border-white border-opacity-50 transform group-hover:scale-[1.02] group-hover:-rotate-1 transition-all duration-500" />
+             <img src="/Certificate.jpeg" alt="Demo Certificate" className="w-full h-auto rounded-[2rem] shadow-2xl relative z-10 border-4 border-white border-opacity-50 transform group-hover:scale-[1.02] group-hover:-rotate-1 transition-all duration-500" />
           </motion.div>
         </div>
       </div>

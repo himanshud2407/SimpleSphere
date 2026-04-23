@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
           <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 text-slate-600 font-medium">
             <div className="flex items-center gap-2">
               <Calendar className="text-blue-600 w-5 h-5" />
-              <span>Last Updated: October 24, 2023</span>
+              <span>Last Updated: April 23, 2026</span>
             </div>
             <div className="flex items-center gap-2">
               <ShieldCheck className="text-blue-600 w-5 h-5" />
