@@ -291,6 +291,9 @@ app.post('/api/careers', async (req, res) => {
   
   if (error) {
     console.error('Career application error:', error);
+    if (error.code === 'PGRST204') {
+      return res.status(400).json({ error: `Schema Mismatch: ${error.message}. Please ensure the 'position' column exists and run 'NOTIFY pgrst, "reload schema";' in your Supabase SQL editor.` });
+    }
     return res.status(500).json({ error: error.message });
   }
   res.json({ success: true, message: 'Application submitted successfully', data });

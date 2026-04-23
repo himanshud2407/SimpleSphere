@@ -638,7 +638,7 @@ export default function AdminDashboard() {
                     </th>
                     <th className="p-4 font-semibold text-gray-600">Email</th>
                     <th className="p-4 font-semibold text-gray-600">
-                      Institution
+                      Position
                     </th>
                     <th className="p-4 font-semibold text-gray-600">
                       Resume/Link
@@ -664,8 +664,8 @@ export default function AdminDashboard() {
                           {app.fullName || app.fullname}
                         </td>
                         <td className="p-4">{app.email}</td>
-                        <td className="p-4 text-gray-500 text-sm">
-                          {app.university || "N/A"}
+                        <td className="p-4 text-blue-700 font-semibold text-sm">
+                          {app.position || "N/A"}
                         </td>
                         <td className="p-4">
                           <a
