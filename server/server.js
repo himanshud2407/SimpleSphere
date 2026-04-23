@@ -21,9 +21,29 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 
 // Security and Middleware
 app.use(helmet({
-  contentSecurityPolicy: false, // Disabled for development, enable if serving static files
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
-app.use(cors());
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://simplesphere.in',
+  'https://www.simplesphere.in'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 // Ensure uploads directory exists
