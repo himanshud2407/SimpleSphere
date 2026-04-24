@@ -188,7 +188,7 @@ export default function CareerPage() {
         </section> */}
 
         {/* Current Openings Section */}
-        <section className="py-16">
+        <section className="py-1">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">Current Openings</h2>
             <p className="text-base text-gray-600 max-w-2xl mx-auto">Join us in building the future. We're looking for passionate individuals to fill these roles.</p>
