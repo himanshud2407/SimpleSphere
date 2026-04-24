@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 export default function CareerPage() {
   const initialFormState = {
@@ -12,12 +14,15 @@ export default function CareerPage() {
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isJobsLoading, setIsJobsLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
+      setIsJobsLoading(true);
       try {
         const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         const res = await fetch(`${apiUrl}/api/jobs`);
@@ -27,10 +32,13 @@ export default function CareerPage() {
         }
       } catch (err) {
         console.error('Error fetching jobs:', err);
+      } finally {
+        setIsJobsLoading(false);
       }
     };
     fetchJobs();
   }, []);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -195,11 +203,32 @@ export default function CareerPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.length === 0 ? (
+            {isJobsLoading ? (
+              [...Array(3)].map((_, i) => (
+                <div key={i} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between h-[320px]">
+                  <div>
+                    <div className="flex justify-between items-start mb-4">
+                      <Skeleton className="h-7 w-3/4 rounded-lg" />
+                      <Skeleton className="h-6 w-20 rounded-full" />
+                    </div>
+                    <div className="space-y-3 mb-6">
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-5/6" />
+                    </div>
+                  </div>
+                  <div className="pt-4 border-t border-gray-100 flex gap-3">
+                    <Skeleton className="h-12 flex-1 rounded-xl" />
+                    <Skeleton className="h-12 w-12 rounded-xl" />
+                  </div>
+                </div>
+              ))
+            ) : jobs.length === 0 ? (
               <div className="col-span-full text-center py-12 bg-gray-50 rounded-[2rem] border border-gray-100">
                 <p className="text-gray-500 font-medium">No open positions at the moment. Check back later!</p>
               </div>
             ) : (
+
               jobs.map((job: any) => (
                 <div key={job.id} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col justify-between">
                   <div>
