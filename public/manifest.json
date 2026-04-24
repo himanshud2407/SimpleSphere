@@ -1,0 +1,21 @@
+{
+  "short_name": "Simplesphere",
+  "name": "Simplesphere - Power Your Career",
+  "icons": [
+    {
+      "src": "/title-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/title-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff"
+}

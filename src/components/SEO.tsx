@@ -11,8 +11,8 @@ interface SEOProps {
 export function SEO({ title, description, keywords, ogImage, url }: SEOProps) {
   useEffect(() => {
     // Update Title
-    const baseTitle = 'SimpleSphere - Power Your Career';
-    const fullTitle = title === 'Home' ? baseTitle : `${title} | SimpleSphere`;
+    const baseTitle = 'Simplesphere - Power Your Career';
+    const fullTitle = title === 'Home' ? baseTitle : `${title} | Simplesphere`;
     document.title = fullTitle;
 
     // Update Meta Description
@@ -84,7 +84,28 @@ export function SEO({ title, description, keywords, ogImage, url }: SEOProps) {
       ogUrl.setAttribute('content', url);
     }
 
+    // Structured Data (JSON-LD) for Logo
+    const schemaOrgEntity = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SimpleSphere",
+      "url": "https://simplesphere.in",
+      "logo": "https://simplesphere.in/title-logo.png",
+      "image": "https://simplesphere.in/title-logo.png",
+      "description": description
+    };
+
+    let script = document.getElementById('schema-org-data');
+    if (!script) {
+      script = document.createElement('script');
+      script.id = 'schema-org-data';
+      script.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(schemaOrgEntity);
+
   }, [title, description, keywords, ogImage, url]);
+
 
   return null;
 }
