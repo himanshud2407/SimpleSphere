@@ -62,6 +62,15 @@ export function SEO({ title, description, keywords, ogImage, url }: SEOProps) {
         document.head.appendChild(ogImg);
       }
       ogImg.setAttribute('content', ogImage);
+
+      // Add name="thumbnail" for Google Search Results
+      let thumb = document.querySelector('meta[name="thumbnail"]');
+      if (!thumb) {
+        thumb = document.createElement('meta');
+        thumb.setAttribute('name', 'thumbnail');
+        document.head.appendChild(thumb);
+      }
+      thumb.setAttribute('content', ogImage);
     }
 
     // Open Graph URL

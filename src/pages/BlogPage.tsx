@@ -86,6 +86,7 @@ export default function BlogPage() {
         title="Blog" 
         description="Stay updated with the latest trends in technology, AI, and professional development. Read our insights and guides at the SimpleSphere blog."
         keywords="tech blog, AI insights, learning resources, professional development tips, simplesphere"
+        ogImage="/title-logo.png"
       />
       {/* Featured Post */}
       {featuredPost && (

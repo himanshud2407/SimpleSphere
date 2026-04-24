@@ -137,6 +137,7 @@ export default function AllCoursesPage() {
         title="All Courses" 
         description="Explore our wide range of professional courses in GenAI, Software Engineering, Data Science, and more. Upskill with industry-leading content at SimpleSphere."
         keywords="online courses, learning, professional development, GenAI courses, coding bootcamp, simplesphere"
+        ogImage="/title-logo.png"
       />
       <div className="flex flex-col lg:flex-row gap-8">
         

@@ -33,6 +33,7 @@ export default function ContactUsPage() {
         title="Contact Us" 
         description="Have questions? Get in touch with SimpleSphere. Whether you're a student or looking to partner with us, we're here to help you."
         keywords="contact simplesphere, customer support, education help, contact us, simplesphere location"
+        ogImage="/title-logo.png"
       />
       {/* Top Banner */}
       <div className="py-10 text-center text-white">

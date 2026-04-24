@@ -21,6 +21,7 @@ export default function Home() {
         title="Home" 
         description="SimpleSphere - The ultimate platform for professional growth. Learn from industry experts, master high-demand skills in AI, Software, and Data Science, and accelerate your career."
         keywords="online learning, career growth, tech education, AI training, software development bootcamp, simplesphere"
+        ogImage="/title-logo.png"
       />
 
       {/* Mobile-only: Stitch redesigned home */}
