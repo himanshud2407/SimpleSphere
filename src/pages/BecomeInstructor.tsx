@@ -18,6 +18,7 @@ export default function BecomeInstructor() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phone: "",
     expertise: "Software Engineering",
   });
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
@@ -35,7 +36,7 @@ export default function BecomeInstructor() {
       });
       if (res.ok) {
         setSubmitStatus({ type: 'success', message: "Thank you for applying! We will be in touch within 48 hours." });
-        setFormData({ fullName: "", email: "", expertise: "Software Engineering" });
+        setFormData({ fullName: "", email: "", phone: "", expertise: "Software Engineering" });
       } else {
         const errorData = await res.json().catch(() => ({}));
         setSubmitStatus({ type: 'error', message: `Error: ${errorData.error || 'There was an error submitting your application. Please try again.'}` });
@@ -321,20 +322,38 @@ export default function BecomeInstructor() {
                   }
                 />
               </div>
-              <div>
-                <label className="block md:font-label text-xs md:text-sm font-bold md:font-semibold text-on-surface-variant uppercase md:normal-case tracking-widest md:tracking-normal mb-2 ml-1">
-                  Email Address
-                </label>
-                <input
-                  required
-                  className="w-full px-5 md:px-6 py-4 rounded-2xl md:rounded-xl bg-surface-container-low border-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-stitch/20 transition-all text-on-surface"
-                  placeholder="sarah@example.com"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
+                <div>
+                  <label className="block md:font-label text-xs md:text-sm font-bold md:font-semibold text-on-surface-variant uppercase md:normal-case tracking-widest md:tracking-normal mb-2 ml-1">
+                    Email Address
+                  </label>
+                  <input
+                    required
+                    className="w-full px-5 md:px-6 py-4 rounded-2xl md:rounded-xl bg-surface-container-low border-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-stitch/20 transition-all text-on-surface"
+                    placeholder="sarah@example.com"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="block md:font-label text-xs md:text-sm font-bold md:font-semibold text-on-surface-variant uppercase md:normal-case tracking-widest md:tracking-normal mb-2 ml-1">
+                    Phone Number
+                  </label>
+                  <input
+                    required
+                    maxLength={10}
+                    className="w-full px-5 md:px-6 py-4 rounded-2xl md:rounded-xl bg-surface-container-low border-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-stitch/20 transition-all text-on-surface"
+                    placeholder="+91 XXXXX XXXXX"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })
+                    }
+                  />
+                </div>
               </div>
               <div>
                 <label className="block md:font-label text-xs md:text-sm font-bold md:font-semibold text-on-surface-variant uppercase md:normal-case tracking-widest md:tracking-normal mb-2 ml-1">

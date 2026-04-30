@@ -191,18 +191,9 @@ export const FAQS = [
     answer: "Simply click the Enroll Now button on any course page.",
   },
   {
-    question: "What are the requirements?",
-    answer: "Most courses require only a basic understanding of the subject.",
-  },
-  {
     question: "Do you provide placement or internship support?",
     answer:
       "Yes, we offer career guidance, resume building, mock interviews, and internship/job assistance for eligible students.",
-  },
-  {
-    question: "Can I access the course after completion?",
-    answer:
-      "Yes, you will have lifetime (or long-term) access to course materials, including updates and recorded sessions.",
   },
   {
     question: "Do you offer certification upon completion?",

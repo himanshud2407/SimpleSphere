@@ -190,8 +190,8 @@ app.delete('/api/courses/:id', authenticateToken, async (req, res) => {
 
 // ------------- CONTACT FORM API (Supabase) -------------
 app.post('/api/contact', async (req, res) => {
-  const { name, email, subject, message } = req.body;
-  const { error } = await supabase.from('leads').insert([{ name, email, subject, message, status: 'pending' }]);
+  const { name, email, phone, subject, message } = req.body;
+  const { error } = await supabase.from('leads').insert([{ name, email, phone, subject, message, status: 'pending' }]);
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true, message: 'Message sent successfully!' });
 });
@@ -228,6 +228,7 @@ app.post('/api/instructors', async (req, res) => {
   const { data, error } = await supabase.from('instructors').insert([{ 
     fullName, 
     email, 
+    phone: req.body.phone,
     expertise,
     status: 'pending'
   }]).select();
@@ -304,6 +305,7 @@ app.post('/api/careers', async (req, res) => {
   const { data, error } = await supabase.from('careers').insert([{ 
     fullname: fullName, 
     email, 
+    phone: req.body.phone,
     position,
     resumeurl: resumeUrl,
     status: 'pending'

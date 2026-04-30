@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut, GraduationCap, CheckCircle, Check } from 'lucide-react';
+import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut, GraduationCap, CheckCircle, Check, Eye, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/AuthContext';
+import { Link } from 'react-router-dom';
 
 export default function AdminDashboard() {
   const { token, logout, user } = useAuth();
@@ -12,6 +13,7 @@ export default function AdminDashboard() {
   const [careers, setCareers] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<any>(null);
 
   // Jobs Form State
   const [showJobForm, setShowJobForm] = useState(false);
@@ -333,7 +335,13 @@ export default function AdminDashboard() {
     <div className="flex flex-col lg:flex-row bg-gray-50 min-h-screen">
       {/* Sidebar */}
       <div className="w-full lg:w-64 bg-white border-r border-b lg:border-b-0 lg:min-h-screen p-6 shadow-sm flex flex-col">
-        <h2 className="text-2xl font-bold text-blue-700 mb-2">Admin Panel</h2>
+        <Link to="/" className="block mb-6 hover:opacity-80 transition-opacity">
+          <img
+            src="/logo.svg"
+            alt="SimpleSphere Logo"
+            className="w-40 h-auto"
+          />
+        </Link>
         <p className="text-xs text-gray-500 mb-8 px-1">
           Logged in as {user?.email}
         </p>
@@ -479,6 +487,7 @@ export default function AdminDashboard() {
                   <tr className="bg-gray-50 border-b">
                     <th className="p-4 font-semibold text-gray-600">Name</th>
                     <th className="p-4 font-semibold text-gray-600">Email</th>
+                    <th className="p-4 font-semibold text-gray-600">Phone</th>
                     <th className="p-4 font-semibold text-gray-600">Subject</th>
                     <th className="p-4 font-semibold text-gray-600">Message</th>
                     <th className="p-4 font-semibold text-gray-600">Date</th>
@@ -488,7 +497,7 @@ export default function AdminDashboard() {
                 <tbody>
                   {leads.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-4 text-center text-gray-500">
+                      <td colSpan={7} className="p-4 text-center text-gray-500">
                         No leads found yet.
                       </td>
                     </tr>
@@ -500,9 +509,18 @@ export default function AdminDashboard() {
                       >
                         <td className="p-4">{lead.name}</td>
                         <td className="p-4">{lead.email}</td>
+                        <td className="p-4">{lead.phone || "N/A"}</td>
                         <td className="p-4">{lead.subject}</td>
-                        <td className="p-4 max-w-xs truncate">
-                          {lead.message}
+                        <td className="p-4 max-w-xs">
+                          <div className="flex items-center gap-2">
+                            <span className="truncate flex-1">{lead.message}</span>
+                            <button 
+                              onClick={() => setSelectedLead(lead)}
+                              className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-xs font-semibold whitespace-nowrap"
+                            >
+                              <Eye className="w-3 h-3" /> View More
+                            </button>
+                          </div>
                         </td>
                         <td className="p-4">
                           {new Date(lead.created_at).toLocaleDateString()}
@@ -553,6 +571,7 @@ export default function AdminDashboard() {
                   <tr className="bg-gray-50 border-b">
                     <th className="p-4 font-semibold text-gray-600">Name</th>
                     <th className="p-4 font-semibold text-gray-600">Email</th>
+                    <th className="p-4 font-semibold text-gray-600">Phone</th>
                     <th className="p-4 font-semibold text-gray-600">
                       Expertise
                     </th>
@@ -565,7 +584,7 @@ export default function AdminDashboard() {
                 <tbody>
                   {instructors.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="p-4 text-center text-gray-500">
+                      <td colSpan={5} className="p-4 text-center text-gray-500">
                         No applications found yet.
                       </td>
                     </tr>
@@ -579,6 +598,7 @@ export default function AdminDashboard() {
                           {inst.fullname || inst.fullName}
                         </td>
                         <td className="p-4">{inst.email}</td>
+                        <td className="p-4">{inst.phone || "N/A"}</td>
                         <td className="p-4">
                           <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold">
                             {inst.expertise}
@@ -637,6 +657,7 @@ export default function AdminDashboard() {
                       Candidate
                     </th>
                     <th className="p-4 font-semibold text-gray-600">Email</th>
+                    <th className="p-4 font-semibold text-gray-600">Phone</th>
                     <th className="p-4 font-semibold text-gray-600">
                       Position
                     </th>
@@ -650,7 +671,7 @@ export default function AdminDashboard() {
                 <tbody>
                   {careers.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="p-4 text-center text-gray-500">
+                      <td colSpan={7} className="p-4 text-center text-gray-500">
                         No applications found yet.
                       </td>
                     </tr>
@@ -664,6 +685,7 @@ export default function AdminDashboard() {
                           {app.fullName || app.fullname}
                         </td>
                         <td className="p-4">{app.email}</td>
+                        <td className="p-4">{app.phone || "N/A"}</td>
                         <td className="p-4 text-blue-700 font-semibold text-sm">
                           {app.position || "N/A"}
                         </td>
@@ -793,6 +815,63 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+
+      {/* Message Modal */}
+      {selectedLead && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedLead(null)}
+        >
+          <div 
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 border-b flex justify-between items-center bg-gray-50">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">Message Details</h3>
+                <p className="text-sm text-gray-500">From {selectedLead.name}</p>
+              </div>
+              <button 
+                onClick={() => setSelectedLead(null)}
+                className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-8">
+              <div className="grid grid-cols-2 gap-6 mb-8 text-sm">
+                <div>
+                  <p className="text-gray-500 mb-1">Email</p>
+                  <p className="font-semibold text-gray-900 break-all">{selectedLead.email}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 mb-1">Phone</p>
+                  <p className="font-semibold text-gray-900">{selectedLead.phone || "N/A"}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 mb-1">Date</p>
+                  <p className="font-semibold text-gray-900">{new Date(selectedLead.created_at).toLocaleDateString()}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-gray-500 mb-1">Subject</p>
+                  <p className="font-semibold text-gray-900">{selectedLead.subject}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-2 text-sm">Message</p>
+                <div className="bg-gray-50 p-6 rounded-2xl border text-gray-700 leading-relaxed whitespace-pre-wrap max-h-[40vh] overflow-y-auto">
+                  {selectedLead.message}
+                </div>
+              </div>
+            </div>
+            <div className="p-6 bg-gray-50 border-t flex justify-end">
+              <Button onClick={() => setSelectedLead(null)} className="rounded-xl px-8">
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

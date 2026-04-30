@@ -6,6 +6,7 @@ export default function CareerPage() {
   const initialFormState = {
     fullName: '',
     email: '',
+    phone: '',
     position: '',
     resumeUrl: ''
   };
@@ -41,7 +42,11 @@ export default function CareerPage() {
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let value = e.target.value;
+    if (e.target.name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -101,6 +106,7 @@ export default function CareerPage() {
         body: JSON.stringify({
           fullName: formData.fullName,
           email: formData.email,
+          phone: formData.phone,
           position: formData.position,
           resumeUrl: uploadResult.url
         }),
@@ -305,26 +311,39 @@ export default function CareerPage() {
                     onChange={handleChange}
                   />
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="position">Applying for Position</label>
-                <div className="relative">
-                  <select 
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="phone">Phone Number</label>
+                  <input 
                     required
-                    className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all appearance-none" 
-                    id="position" 
-                    name="position" 
-                    value={formData.position}
-                    onChange={handleChange as any}
-                  >
-                    <option value="" disabled>Select a position</option>
-                    {jobs.map((job: any) => (
-                      <option key={job.id} value={job.title}>{job.title}</option>
-                    ))}
-                  </select>
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <span className="material-symbols-outlined">expand_more</span>
+                    maxLength={10}
+                    className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all" 
+                    id="phone" 
+                    name="phone" 
+                    placeholder="+91 XXXXX XXXXX" 
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-700 ml-1" htmlFor="position">Applying for Position</label>
+                  <div className="relative">
+                    <select 
+                      required
+                      className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all appearance-none" 
+                      id="position" 
+                      name="position" 
+                      value={formData.position}
+                      onChange={handleChange as any}
+                    >
+                      <option value="" disabled>Select a position</option>
+                      {jobs.map((job: any) => (
+                        <option key={job.id} value={job.title}>{job.title}</option>
+                      ))}
+                    </select>
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                      <span className="material-symbols-outlined">expand_more</span>
+                    </div>
                   </div>
                 </div>
               </div>

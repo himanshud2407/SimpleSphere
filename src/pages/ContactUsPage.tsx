@@ -4,7 +4,7 @@ import { SEO } from '@/components/SEO';
 
 
 export default function ContactUsPage() {
-  const [formData, setFormData] = React.useState({ name: '', email: '', subject: '', message: '' });
+  const [formData, setFormData] = React.useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [loading, setLoading] = React.useState(false);
   const [successMsg, setSuccessMsg] = React.useState('');
 
@@ -19,7 +19,7 @@ export default function ContactUsPage() {
       });
       if (res.ok) {
         setSuccessMsg('Message sent successfully!');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       }
     } catch(err) {
       console.error(err);
@@ -67,20 +67,38 @@ export default function ContactUsPage() {
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 />
               </div>
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">
-                  Your Email
-                </label>
-                <input
-                  required
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Your Email
+                  </label>
+                  <input
+                    required
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    type="email"
+                    placeholder="Your Email"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    required
+                    maxLength={10}
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })
+                    }
+                    type="tel"
+                    placeholder="+91 XXXXX XXXXX"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium mb-2">
