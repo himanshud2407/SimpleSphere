@@ -33,9 +33,9 @@ export default function Home() {
       <div className="hidden md:block">
         <Hero />
         {/*    */}
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <MacbookScrollDemo />
-        </div>
+        </div> */}
         <Categories />
         <Stats />
         <ExplorePrograms />
