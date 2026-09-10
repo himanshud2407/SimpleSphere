@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Settings, Users, BookOpen, MessageSquare, Plus, Trash2, Edit, LogOut, GraduationCap, CheckCircle, Check, Eye, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -425,11 +426,7 @@ export default function AdminDashboard() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href={
-                    import.meta.env.PROD
-                      ? "https://simplesphere-studio.sanity.studio"
-                      : "http://localhost:3333"
-                  }
+                  href="https://simplesphere-studio.sanity.studio"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2"

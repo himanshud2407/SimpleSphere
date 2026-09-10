@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS leads (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   name text NOT NULL,
   email text NOT NULL,
+  phone text,
   subject text,
   message text,
   status text DEFAULT 'pending', -- 'pending' or 'done'
@@ -42,10 +43,11 @@ CREATE TABLE IF NOT EXISTS leads (
 );
 
 -- 3. INSTRUCTORS TABLE (Applications)
-CREATE TABLE IF NOT EXISTS instructors (
+CREATE TABLE IF 
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   "fullName" text NOT NULL,
   email text NOT NULL,
+  phone text,
   expertise text,
   status text DEFAULT 'pending', -- 'pending' or 'done'
   created_at timestamp with time zone DEFAULT now()
@@ -56,6 +58,7 @@ CREATE TABLE IF NOT EXISTS careers (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   fullName text NOT NULL,
   email text NOT NULL,
+  phone text,
   position text,
   resumeUrl text,
   status text DEFAULT 'pending', -- 'pending' or 'done'
