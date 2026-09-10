@@ -225,10 +225,7 @@ export default function AllCoursesPage() {
                   </div>
                   <div className="p-4 flex-1 flex flex-col">
                     <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 min-h-[3rem]">{course.title}</h3>
-                    <p className="text-sm text-gray-600 mb-2">Instructor: {course.inst}</p>
-                    <p className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-1">
-                      <span className="text-yellow-500">⭐</span> {course.rating || '4.5'} <span className="text-gray-500 font-normal">({course.reviews || '0'} Reviews)</span>
-                    </p>
+
                     <div className="mt-auto flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-lg text-gray-900">{course.price ? (String(course.price).toLowerCase() === 'free' ? 'Free' : `₹${course.price}`.replace('₹₹', '₹')) : 'Free'}</span>

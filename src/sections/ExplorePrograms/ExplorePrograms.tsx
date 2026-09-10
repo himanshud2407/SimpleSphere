@@ -171,12 +171,12 @@ export default function ExplorePrograms() {
           >
             <GraduationCap className="w-4 h-4 text-blue-600" />
             <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
-              Explore Programs
+              Our New Courses
             </span>
           </motion.div>
 
           <motion.h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-            EXPLORE OUR PROGRAMS
+            OUR NEW COURSES
           </motion.h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto font-medium">
             Find the right program to build in-demand skills and advance your
