@@ -12,8 +12,8 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Look for .env.local in the root directory
-dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
+// Look for .env in the root directory
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -112,9 +112,7 @@ export default function CourseDetailPage() {
 
   const tabs = [
     { name: "Course Info", id: "about" },
-    { name: "Curriculum", id: "curriculum" },
-    { name: "Instructor", id: "instructor" },
-    { name: "Reviews (1,248)", id: "reviews" }
+    { name: "Curriculum", id: "curriculum" }
   ];
 
   if (loading) {
@@ -170,9 +168,7 @@ export default function CourseDetailPage() {
   const learning_objectives = (Array.isArray(course.learning_objectives) && course.learning_objectives.length > 0) ? course.learning_objectives : LEARNING_OBJECTIVES;
   const courseMeta = [
     { icon: "bar_chart", label: "Level", value: course.level || "Beginner" },
-    { icon: "group", label: "Enrolled", value: course.enrolled_count || "0 Students" },
     { icon: "schedule", label: "Duration", value: course.duration || "Self-paced" },
-    { icon: "update", label: "Last Updated", value: course.last_updated || "Recently" },
   ];
 
   return (
@@ -399,19 +395,7 @@ export default function CourseDetailPage() {
             </div>
           </section>
 
-          {/* Reviews Section */}
-          <section id="reviews" className="pt-8">
-            <h2 className="text-2xl font-semibold mb-6 text-slate-900">Student Reviews</h2>
-            <div className="bg-slate-50 rounded-xl p-8 text-center border border-slate-200">
-              <div className="flex justify-center gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <MI key={s} name="star" className="text-yellow-400" fill />
-                ))}
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-2">{course.rating || "4.8"} out of 5</h4>
-              <p className="text-slate-500">Based on {course.reviews || "1,248"} student ratings</p>
-            </div>
-          </section>
+
         </div>
 
         {/* ── Right Column — Sticky Sidebar ── */}
@@ -435,6 +419,19 @@ export default function CourseDetailPage() {
                 <button className="w-full h-12 border-2 border-blue-600 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-all">
                   Buy Now
                 </button>
+                {course.brochure_pdf ? (
+                  <a href={course.brochure_pdf} target="_blank" rel="noopener noreferrer" className="block w-full">
+                    <button className="w-full h-12 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-all flex items-center justify-center gap-2">
+                      <MI name="download" className="text-[18px]" />
+                      Download Brochure
+                    </button>
+                  </a>
+                ) : (
+                  <button className="w-full h-12 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" title="Brochure not available">
+                    <MI name="download" className="text-[18px]" />
+                    Download Brochure
+                  </button>
+                )}
               </div>
 
               <p className="text-center text-xs text-slate-400 mt-4">30-Day Money-Back Guarantee</p>
@@ -470,26 +467,7 @@ export default function CourseDetailPage() {
               </div>
             </div>
 
-            {/* Instructor Profile */}
-            <div id="instructor" className="bg-white rounded-xl border border-slate-200 p-6">
-              <h4 className="font-semibold text-base mb-4 text-slate-900">Instructor</h4>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden border border-slate-200">
-                  <img
-                    className="w-full h-full object-cover"
-                    src={course.instructor_image || "/instructor-avatar.jpg"}
-                    alt={course.inst || "Instructor"}
-                  />
-                </div>
-                <div>
-                  <h5 className="font-semibold text-base text-slate-900">{course.inst || "Industry Expert"}</h5>
-                  <p className="text-xs text-slate-500">{course.instructor_title || "Senior Instructor"}</p>
-                </div>
-              </div>
-              <p className="text-xs text-slate-500 leading-relaxed whitespace-pre-wrap">
-                {course.instructor_bio || "Expert instructor with years of experience building applications and mentoring students in the latest technologies."}
-              </p>
-            </div>
+
           </div>
         </aside>
       </div>

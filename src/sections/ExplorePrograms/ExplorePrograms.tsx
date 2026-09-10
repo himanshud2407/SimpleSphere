@@ -33,6 +33,7 @@ const CATEGORIES = [
     name: "Industry Recognized Certification",
     icon: FileCheck,
   },
+  { id: "iot", name: "Internet of Things", icon: Laptop },
   { id: "other", name: "Other", icon: Archive },
 ];
 

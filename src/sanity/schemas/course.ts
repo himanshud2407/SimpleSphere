@@ -19,21 +19,7 @@ export default defineType({
         hotspot: true,
       },
     }),
-    defineField({
-      name: 'inst',
-      title: 'Instructor Name',
-      type: 'string',
-    }),
-    defineField({
-      name: 'rating',
-      title: 'Rating',
-      type: 'number',
-    }),
-    defineField({
-      name: 'reviews',
-      title: 'Number of Reviews',
-      type: 'number',
-    }),
+
     defineField({
       name: 'price',
       title: 'Current Price',
@@ -66,20 +52,43 @@ export default defineType({
     }),
     defineField({
       name: 'curriculum',
-      title: 'Curriculum',
+      title: 'Curriculum (Modules)',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'title', title: 'Module Title (e.g. Module 1 - IoT)', type: 'string' },
+          { name: 'lectures', title: 'Number of Lectures', type: 'string' },
+          { name: 'duration', title: 'Duration (e.g. 45m)', type: 'string' },
+          {
+            name: 'items',
+            title: 'Lectures / Topics',
+            type: 'array',
+            of: [{
+              type: 'object',
+              fields: [
+                { name: 'title', title: 'Topic Title', type: 'string' },
+                { 
+                  name: 'type', 
+                  title: 'Content Type', 
+                  type: 'string', 
+                  options: { list: [{ title: 'Video', value: 'video' }, { title: 'Document', value: 'document' }] },
+                  initialValue: 'video'
+                },
+                { name: 'meta', title: 'Meta Info (e.g. 10m)', type: 'string' },
+                { name: 'isPreview', title: 'Is Preview Available?', type: 'boolean', initialValue: false }
+              ]
+            }]
+          }
+        ]
+      }],
     }),
     defineField({
       name: 'duration',
       title: 'Duration',
       type: 'string',
     }),
-    defineField({
-      name: 'last_updated',
-      title: 'Last Updated Date',
-      type: 'string',
-    }),
+
     defineField({
       name: 'materials_included',
       title: 'Materials Included',
@@ -101,37 +110,30 @@ export default defineType({
       }
     }),
     defineField({
+      name: 'brochure_pdf',
+      title: 'Brochure PDF',
+      type: 'file',
+      options: {
+        accept: 'application/pdf'
+      }
+    }),
+    defineField({
       name: 'feature_cards',
       title: 'Feature Cards',
       type: 'array',
-      of: [{ type: 'string' }],
-    }),
-    defineField({
-      name: 'enrolled_count',
-      title: 'Enrolled Count',
-      type: 'number',
-    }),
-    defineField({
-      name: 'instructor_title',
-      title: 'Instructor Title',
-      type: 'string',
-    }),
-    defineField({
-      name: 'instructor_bio',
-      title: 'Instructor Bio',
-      type: 'text',
-    }),
-    defineField({
-      name: 'instructor_image',
-      title: 'Instructor Image',
-      type: 'image',
-      options: { hotspot: true },
+      of: [{ 
+        type: 'object',
+        fields: [
+          { name: 'icon', title: 'Icon (Material Symbol name)', type: 'string' },
+          { name: 'title', title: 'Title', type: 'string' },
+          { name: 'description', title: 'Description', type: 'string' }
+        ]
+      }],
     }),
   ],
   preview: {
     select: {
       title: 'title',
-      subtitle: 'inst',
       media: 'img',
     },
   },
