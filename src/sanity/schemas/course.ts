@@ -88,9 +88,17 @@ export default defineType({
     }),
     defineField({
       name: 'learning_objectives',
-      title: 'Learning Objectives',
+      title: 'What Will You Learn',
       type: 'array',
       of: [{ type: 'string' }],
+    }),
+    defineField({
+      name: 'syllabus_pdf',
+      title: 'Syllabus PDF',
+      type: 'file',
+      options: {
+        accept: 'application/pdf'
+      }
     }),
     defineField({
       name: 'feature_cards',

@@ -230,7 +230,14 @@ export default function AllCoursesPage() {
                       <span className="text-yellow-500">⭐</span> {course.rating || '4.5'} <span className="text-gray-500 font-normal">({course.reviews || '0'} Reviews)</span>
                     </p>
                     <div className="mt-auto flex items-center justify-between">
-                      <span className="font-bold text-lg text-gray-900">{course.price}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-lg text-gray-900">{course.price ? (String(course.price).toLowerCase() === 'free' ? 'Free' : `₹${course.price}`.replace('₹₹', '₹')) : 'Free'}</span>
+                        {course.original_price && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {String(course.original_price).toLowerCase() === 'free' ? 'Free' : `₹${course.original_price}`.replace('₹₹', '₹')}
+                          </span>
+                        )}
+                      </div>
                       <Link to={`/course/${course.id}`}>
                         <button className="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-900">Enroll Now</button>
                       </Link>

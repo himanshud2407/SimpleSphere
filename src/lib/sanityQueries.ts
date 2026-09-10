@@ -59,7 +59,8 @@ export const getCoursesQuery = `*[_type == "course"] | order(_createdAt desc) {
   enrolled_count,
   instructor_title,
   instructor_bio,
-  "instructor_image": coalesce(instructor_image.asset->url, instructor_image)
+  "instructor_image": coalesce(instructor_image.asset->url, instructor_image),
+  "syllabus_pdf": syllabus_pdf.asset->url
 }`;
 
 export const getCourseByIdQuery = `*[_type == "course" && _id == $id][0] {
@@ -84,5 +85,6 @@ export const getCourseByIdQuery = `*[_type == "course" && _id == $id][0] {
   enrolled_count,
   instructor_title,
   instructor_bio,
-  "instructor_image": coalesce(instructor_image.asset->url, instructor_image)
+  "instructor_image": coalesce(instructor_image.asset->url, instructor_image),
+  "syllabus_pdf": syllabus_pdf.asset->url
 }`;

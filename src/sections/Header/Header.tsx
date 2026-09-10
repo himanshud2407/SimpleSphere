@@ -110,7 +110,7 @@ export default function Header() {
                 </a>
               </Button>
               <Button asChild variant="outline" className="border-2 border-slate-200 hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600 text-slate-700 font-bold rounded-xl px-7 h-11 transition-all duration-300">
-                <a href="https://dashboard.simplesphere.in" target="_blank" rel="noopener noreferrer">LMS</a>
+                <a href="https://lms.simplesphere.in/login" target="_blank" rel="noopener noreferrer">LMS</a>
               </Button>
             </div>
 

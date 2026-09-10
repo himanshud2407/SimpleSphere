@@ -237,9 +237,16 @@ export default function MobileHome() {
                   </span>
                 </div>
                 <h4 className="text-sm font-semibold truncate">{course.title}</h4>
-                <p className="text-[#004ac6] text-sm font-semibold mt-1">
-                  {course.price || 'Free'}
-                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <p className="text-[#004ac6] text-sm font-semibold">
+                    {course.price ? (String(course.price).toLowerCase() === 'free' ? 'Free' : `₹${course.price}`.replace('₹₹', '₹')) : 'Free'}
+                  </p>
+                  {course.original_price && (
+                    <span className="text-xs text-gray-400 line-through">
+                      {String(course.original_price).toLowerCase() === 'free' ? 'Free' : `₹${course.original_price}`.replace('₹₹', '₹')}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="flex items-start pt-1">
                 <button className="p-1 text-slate-300" onClick={(e) => e.stopPropagation()}>

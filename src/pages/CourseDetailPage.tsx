@@ -227,9 +227,17 @@ export default function CourseDetailPage() {
                   Enroll Now
                 </button>
               </Link>
-              <button className="h-11 px-6 border-2 border-blue-600 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-all">
-                Download Syllabus
-              </button>
+              {course.syllabus_pdf ? (
+                <a href={course.syllabus_pdf} target="_blank" rel="noopener noreferrer">
+                  <button className="h-11 px-6 border-2 border-blue-600 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-all">
+                    Download Syllabus
+                  </button>
+                </a>
+              ) : (
+                <button className="h-11 px-6 border-2 border-blue-600 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-all opacity-50 cursor-not-allowed" title="Syllabus not available">
+                  Download Syllabus
+                </button>
+              )}
             </div>
           </div>
 
@@ -413,7 +421,7 @@ export default function CourseDetailPage() {
             <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
               <div className="mb-6">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-[32px] font-bold text-blue-700 leading-tight">{course.price || "Free"}</span>
+                  <span className="text-[32px] font-bold text-blue-700 leading-tight">{course.price ? (String(course.price).toLowerCase() === 'free' ? 'Free' : `₹${course.price}`.replace('₹₹', '₹')) : 'Free'}</span>
                   {course.original_price && (
                     <span className="text-base text-slate-400 line-through">{course.original_price}</span>
                   )}
