@@ -10,11 +10,13 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('courses');
   const [courses, setCourses] = useState([]);
   const [leads, setLeads] = useState([]);
+  const [courseEnquiries, setCourseEnquiries] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [careers, setCareers] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedLead, setSelectedLead] = useState<any>(null);
+  const [selectedCourseEnquiry, setSelectedCourseEnquiry] = useState<any>(null);
 
   // Jobs Form State
   const [showJobForm, setShowJobForm] = useState(false);
@@ -36,6 +38,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchCourses();
     fetchLeads();
+    fetchCourseEnquiries();
     fetchInstructors();
     fetchCareers();
     fetchJobs();
@@ -77,6 +80,40 @@ export default function AdminDashboard() {
       if (data && Array.isArray(data)) setLeads(data);
     } catch (err) {
       console.error('Error fetching leads:', err);
+    }
+  };
+
+  const fetchCourseEnquiries = async () => {
+    try {
+      const res = await fetch(`${API_URL}/course-enquiries`, { headers: getHeaders() });
+      const data = await handleResponse(res);
+      if (data && Array.isArray(data)) setCourseEnquiries(data);
+    } catch (err) {
+      console.error('Error fetching course enquiries:', err);
+    }
+  };
+
+  const handleDeleteCourseEnquiry = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this enquiry?')) return;
+    try {
+      await fetch(`${API_URL}/course-enquiries/${id}`, { method: 'DELETE', headers: getHeaders() });
+      fetchCourseEnquiries();
+    } catch (err) {
+      console.error('Error deleting course enquiry:', err);
+    }
+  };
+
+  const handleMarkCourseEnquiryDone = async (id: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'done' ? 'pending' : 'done';
+      await fetch(`${API_URL}/course-enquiries/${id}`, { 
+        method: 'PATCH', 
+        headers: getHeaders(),
+        body: JSON.stringify({ status: newStatus })
+      });
+      fetchCourseEnquiries();
+    } catch (err) {
+      console.error('Error updating course enquiry status:', err);
     }
   };
 
@@ -361,7 +398,15 @@ export default function AdminDashboard() {
               onClick={() => setActiveTab("leads")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "leads" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
             >
-              <Users className="w-5 h-5" /> Leads
+              <MessageSquare className="w-5 h-5" /> Contact Leads
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => setActiveTab("courseEnquiries")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${activeTab === "courseEnquiries" ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
+            >
+              <BookOpen className="w-5 h-5" /> Course Enquiries
             </button>
           </li>
           <li>
@@ -540,6 +585,90 @@ export default function AdminDashboard() {
                             onClick={() => handleDeleteLead(lead.id)}
                             className="text-red-500 hover:text-red-700"
                             title="Delete Lead"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* COURSE ENQUIRIES TAB */}
+        {activeTab === "courseEnquiries" && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold text-gray-900">
+                Course Enquiries
+              </h1>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 border-b">
+                    <th className="p-4 font-semibold text-gray-600">Name</th>
+                    <th className="p-4 font-semibold text-gray-600">Email</th>
+                    <th className="p-4 font-semibold text-gray-600">Phone</th>
+                    <th className="p-4 font-semibold text-gray-600">Course</th>
+                    <th className="p-4 font-semibold text-gray-600">Message</th>
+                    <th className="p-4 font-semibold text-gray-600">Date</th>
+                    <th className="p-4 font-semibold text-gray-600">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {courseEnquiries.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="p-4 text-center text-gray-500">
+                        No course enquiries found yet.
+                      </td>
+                    </tr>
+                  ) : (
+                    courseEnquiries.map((enquiry: any) => (
+                      <tr
+                        key={enquiry.id}
+                        className={`border-b hover:bg-gray-50 ${enquiry.status === "done" ? "opacity-50" : ""}`}
+                      >
+                        <td className="p-4">{enquiry.name}</td>
+                        <td className="p-4">{enquiry.email}</td>
+                        <td className="p-4">{enquiry.phone || "N/A"}</td>
+                        <td className="p-4 font-medium text-blue-600">{enquiry.course_title}</td>
+                        <td className="p-4 max-w-xs">
+                          <div className="flex items-center gap-2">
+                            <span className="truncate flex-1">{enquiry.message || "N/A"}</span>
+                            <button 
+                              onClick={() => setSelectedCourseEnquiry(enquiry)}
+                              className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-xs font-semibold whitespace-nowrap"
+                            >
+                              <Eye className="w-3 h-3" /> View More
+                            </button>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          {new Date(enquiry.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="p-4 flex gap-2">
+                          <button
+                            onClick={() =>
+                              handleMarkCourseEnquiryDone(enquiry.id, enquiry.status)
+                            }
+                            className={`${enquiry.status === "done" ? "text-green-600" : "text-gray-400"} hover:text-green-700`}
+                            title={
+                              enquiry.status === "done"
+                                ? "Mark as Pending"
+                                : "Mark as Done"
+                            }
+                          >
+                            <CheckCircle className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCourseEnquiry(enquiry.id)}
+                            className="text-red-500 hover:text-red-700"
+                            title="Delete Enquiry"
                           >
                             <Trash2 className="w-5 h-5" />
                           </button>
@@ -863,6 +992,62 @@ export default function AdminDashboard() {
             </div>
             <div className="p-6 bg-gray-50 border-t flex justify-end">
               <Button onClick={() => setSelectedLead(null)} className="rounded-xl px-8">
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Selected Course Enquiry Modal */}
+      {selectedCourseEnquiry && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 border-b flex justify-between items-center bg-gray-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg">
+                  {selectedCourseEnquiry.name.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900">{selectedCourseEnquiry.name}</h3>
+                  <p className="text-sm text-gray-500">Course Enquiry Details</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedCourseEnquiry(null)}
+                className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-8">
+              <div className="grid grid-cols-2 gap-6 mb-8 text-sm">
+                <div>
+                  <p className="text-gray-500 mb-1">Email</p>
+                  <p className="font-semibold text-gray-900 break-all">{selectedCourseEnquiry.email}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 mb-1">Phone</p>
+                  <p className="font-semibold text-gray-900">{selectedCourseEnquiry.phone || "N/A"}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 mb-1">Date</p>
+                  <p className="font-semibold text-gray-900">{new Date(selectedCourseEnquiry.created_at).toLocaleDateString()}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-gray-500 mb-1">Course</p>
+                  <p className="font-semibold text-gray-900 text-blue-600">{selectedCourseEnquiry.course_title}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-gray-500 mb-2 text-sm">Message</p>
+                <div className="bg-gray-50 p-6 rounded-2xl border text-gray-700 leading-relaxed whitespace-pre-wrap max-h-[40vh] overflow-y-auto">
+                  {selectedCourseEnquiry.message || "No message provided."}
+                </div>
+              </div>
+            </div>
+            <div className="p-6 bg-gray-50 border-t flex justify-end">
+              <Button onClick={() => setSelectedCourseEnquiry(null)} className="rounded-xl px-8">
                 Close
               </Button>
             </div>

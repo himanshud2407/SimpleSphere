@@ -78,6 +78,39 @@ export default function CourseDetailPage() {
   const [course, setCourse] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // Enquiry Modal State
+  const [showEnquiryModal, setShowEnquiryModal] = useState(false);
+  const [isEnquiring, setIsEnquiring] = useState(false);
+  const [enquirySuccess, setEnquirySuccess] = useState(false);
+  const [enquiryFormData, setEnquiryFormData] = useState({ name: '', email: '', phone: '', message: '' });
+
+  const handleEnquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsEnquiring(true);
+    try {
+      const res = await fetch('http://localhost:5000/api/course-enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...enquiryFormData, course_title: course.title })
+      });
+      if (res.ok) {
+        setEnquirySuccess(true);
+        setTimeout(() => {
+          setShowEnquiryModal(false);
+          setEnquirySuccess(false);
+          setEnquiryFormData({ name: '', email: '', phone: '', message: '' });
+        }, 2000);
+      } else {
+        alert("Failed to submit enquiry. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting enquiry.");
+    } finally {
+      setIsEnquiring(false);
+    }
+  };
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -218,11 +251,12 @@ export default function CourseDetailPage() {
             </p>
 
             <div className="flex items-center justify-center lg:justify-start gap-4 pt-4 flex-wrap">
-              <Link to="/contact">
-                <button className="h-11 px-8 bg-blue-600 text-white rounded-lg text-sm font-semibold transition-all hover:bg-blue-700 active:scale-95 shadow-md shadow-blue-200">
-                  Enroll Now
-                </button>
-              </Link>
+              <button 
+                onClick={() => setShowEnquiryModal(true)}
+                className="h-11 px-8 bg-blue-600 text-white rounded-lg text-sm font-semibold transition-all hover:bg-blue-700 active:scale-95 shadow-md shadow-blue-200"
+              >
+                Enroll Now
+              </button>
               {course.syllabus_pdf ? (
                 <a href={course.syllabus_pdf} target="_blank" rel="noopener noreferrer">
                   <button className="h-11 px-6 border-2 border-blue-600 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-all">
@@ -413,11 +447,11 @@ export default function CourseDetailPage() {
               </div>
 
               <div className="space-y-3">
-                <button className="w-full h-12 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all shadow-md shadow-blue-200">
-                  Add to Cart
-                </button>
-                <button className="w-full h-12 border-2 border-blue-600 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-all">
-                  Buy Now
+                <button 
+                  onClick={() => setShowEnquiryModal(true)}
+                  className="w-full h-12 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all shadow-md shadow-blue-200"
+                >
+                  Enquire Now
                 </button>
                 {course.brochure_pdf ? (
                   <a href={course.brochure_pdf} target="_blank" rel="noopener noreferrer" className="block w-full">
@@ -471,6 +505,85 @@ export default function CourseDetailPage() {
           </div>
         </aside>
       </div>
+      {/* Enquiry Modal */}
+      {showEnquiryModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl"
+          >
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <h3 className="text-xl font-bold text-slate-900">Enquire About This Course</h3>
+              <button onClick={() => setShowEnquiryModal(false)} className="text-slate-400 hover:text-slate-600">
+                <MI name="close" className="text-2xl" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              {enquirySuccess ? (
+                <div className="text-center py-8">
+                  <MI name="check_circle" className="text-5xl text-green-500 mb-4 mx-auto" />
+                  <h4 className="text-xl font-bold text-slate-900 mb-2">Enquiry Sent!</h4>
+                  <p className="text-slate-500">We will get back to you shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleEnquirySubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
+                    <input 
+                      required
+                      minLength={3}
+                      type="text" 
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" 
+                      value={enquiryFormData.name}
+                      onChange={e => setEnquiryFormData({...enquiryFormData, name: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
+                    <input 
+                      required
+                      type="email" 
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" 
+                      value={enquiryFormData.email}
+                      onChange={e => setEnquiryFormData({...enquiryFormData, email: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number (Optional)</label>
+                    <input 
+                      type="tel" 
+                      pattern="[0-9]{10}"
+                      title="Please enter a valid 10-digit phone number"
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" 
+                      value={enquiryFormData.phone}
+                      onChange={e => setEnquiryFormData({...enquiryFormData, phone: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Message (Optional)</label>
+                    <textarea 
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none" 
+                      rows={3}
+                      value={enquiryFormData.message}
+                      onChange={e => setEnquiryFormData({...enquiryFormData, message: e.target.value})}
+                    ></textarea>
+                  </div>
+                  
+                  <button 
+                    disabled={isEnquiring}
+                    type="submit" 
+                    className="w-full h-12 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                  >
+                    {isEnquiring ? 'Sending...' : 'Submit Enquiry'}
+                  </button>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
     </>
   );
 }

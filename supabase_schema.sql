@@ -74,3 +74,15 @@ CREATE TABLE IF NOT EXISTS jobs (
   pdf_url text,
   created_at timestamp with time zone DEFAULT now()
 );
+
+-- 6. COURSE ENQUIRIES TABLE
+CREATE TABLE IF NOT EXISTS course_enquiries (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  email text NOT NULL,
+  phone text,
+  course_title text NOT NULL,
+  message text,
+  status text DEFAULT 'pending', -- 'pending' or 'done'
+  created_at timestamp with time zone DEFAULT now()
+);

@@ -217,6 +217,35 @@ app.patch('/api/leads/:id', authenticateToken, async (req, res) => {
   res.json({ success: true });
 });
 
+// ------------- COURSE ENQUIRIES API (Supabase) -------------
+app.post('/api/course-enquiries', async (req, res) => {
+  const { name, email, phone, course_title, message } = req.body;
+  const { error } = await supabase.from('course_enquiries').insert([{ name, email, phone, course_title, message, status: 'pending' }]);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true, message: 'Enquiry sent successfully!' });
+});
+
+app.get('/api/course-enquiries', authenticateToken, async (req, res) => {
+  const { data, error } = await supabase.from('course_enquiries').select('*').order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+app.delete('/api/course-enquiries/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { error } = await supabase.from('course_enquiries').delete().eq('id', id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
+app.patch('/api/course-enquiries/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const { error } = await supabase.from('course_enquiries').update({ status }).eq('id', id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
 // ------------- INSTRUCTORS API (Supabase) -------------
 app.post('/api/instructors', async (req, res) => {
   const { fullName, email, expertise } = req.body;
