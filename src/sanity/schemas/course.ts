@@ -58,8 +58,6 @@ export default defineType({
         type: 'object',
         fields: [
           { name: 'title', title: 'Module Title (e.g. Module 1 - IoT)', type: 'string' },
-          { name: 'lectures', title: 'Number of Lectures', type: 'string' },
-          { name: 'duration', title: 'Duration (e.g. 45m)', type: 'string' },
           {
             name: 'items',
             title: 'Lectures / Topics',
@@ -67,16 +65,7 @@ export default defineType({
             of: [{
               type: 'object',
               fields: [
-                { name: 'title', title: 'Topic Title', type: 'string' },
-                { 
-                  name: 'type', 
-                  title: 'Content Type', 
-                  type: 'string', 
-                  options: { list: [{ title: 'Video', value: 'video' }, { title: 'Document', value: 'document' }] },
-                  initialValue: 'video'
-                },
-                { name: 'meta', title: 'Meta Info (e.g. 10m)', type: 'string' },
-                { name: 'isPreview', title: 'Is Preview Available?', type: 'boolean', initialValue: false }
+                { name: 'title', title: 'Topic Title', type: 'string' }
               ]
             }]
           }

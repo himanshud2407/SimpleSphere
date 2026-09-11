@@ -373,8 +373,6 @@ export default function CourseDetailPage() {
               <h2 className="text-2xl font-semibold text-slate-900">Course Content</h2>
               <span className="text-xs text-slate-400">
                 {course.curriculum?.length || 0} Sections • {
-                  course.curriculum?.reduce((acc: number, curr: any) => acc + (parseInt(curr.lectures) || 0), 0)
-                } Lectures • {
                   course.curriculum?.reduce((acc: string, curr: any) => acc || curr.duration, "") ? "Multiple Hours" : course.duration
                 }
               </span>
@@ -395,9 +393,11 @@ export default function CourseDetailPage() {
                       />
                       <h3 className="font-semibold text-base text-left">{section.title}</h3>
                     </div>
-                    <span className="text-xs text-slate-400 whitespace-nowrap ml-4">
-                      {section.lectures} Lectures • {section.duration}
-                    </span>
+                    {section.duration && (
+                      <span className="text-xs text-slate-400 whitespace-nowrap ml-4">
+                        {section.duration}
+                      </span>
+                    )}
                   </button>
 
                   {/* Section Items */}
